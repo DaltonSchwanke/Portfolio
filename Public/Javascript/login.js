@@ -34,6 +34,38 @@
           }
       }
   }
+  if (dashboardLink) {
+    dashboardLink.addEventListener('click', async (event) => {
+        event.preventDefault(); // Prevent the default link behavior
+
+        const token = sessionStorage.getItem('token'); // Get token from sessionStorage
+        if (!token) {
+            window.location.href = '/login'; // Redirect to login if no token
+            return;
+        }
+
+        // Send token in Authorization header
+        try {
+            const response = await fetch('/dashboard', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                // If the response is OK (valid token), navigate to dashboard
+                window.location.href = '/dashboard';
+            } else {
+                // If token is invalid, redirect to login
+                window.location.href = '/login';
+            }
+        } catch (error) {
+            console.error('Error fetching dashboard:', error);
+            window.location.href = '/login'; // On error, redirect to login
+        }
+    });
+  }
 });
 
 /**
