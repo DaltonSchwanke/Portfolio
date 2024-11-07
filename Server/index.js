@@ -5,7 +5,7 @@ const path = require('path');
 
 const app = express();
 const PORT = 3000;
-const usersFilePath = path.join(__dirname, 'users.json');
+const usersFilePath = path.join(__dirname, 'data.json');
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../Public')));
@@ -53,22 +53,21 @@ app.get('/dashboard', (req, res) => {
  *  Route for logging user in
  */
 app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+    const { user, pass } = req.body;
+    console.log(req.body);
+    console.log({ user, pass });
     const users = await getUsers();
-    const user = users.find((u) => u.username === username);
-    
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid username or password' });
+    const foundUser = users.find((u) => u.username === user);
+    if (!foundUser) {
+        return res.status(401).json({ message: 'Invalid username or password' });
     }
-    
-    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    const isPasswordMatch = await bcrypt.compare(pass, foundUser.password);
     if (!isPasswordMatch) {
-      return res.status(401).json({ message: 'Invalid username or password' });
+        return res.status(401).json({ message: 'Invalid username or password' });
     } else {
-      res.sendFile(path.join(__dirname, '../Public/Pages', 'dashboard.html'));
+        return res.status(200).json({ message: 'Login successful' });
     }
 });
-  
 
 /**
 *  Route for signing user up
@@ -78,15 +77,12 @@ app.post('/signup', async (req, res) => {
     if (!user || !pass) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
-  
     const hashedPassword = await bcrypt.hash(pass, 10);
     const newUser = { username: user, password: hashedPassword };
-  
     try {
       const data = await fs.readFile('data.json', 'utf8');
       const users = JSON.parse(data || '[]');
       users.push(newUser);
-  
       await fs.writeFile('data.json', JSON.stringify(users, null, 2));
       res.status(200).json({ message: 'User signed up successfully!' });
     } catch (err) {
