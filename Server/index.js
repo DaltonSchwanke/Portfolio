@@ -47,16 +47,19 @@ app.get('/login', (req, res) => {
  *  Route for dashboard page
  */
 app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, '../Public/Pages', 'dashboard.html'));
+    const token = req.headers['authorization']?.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized access. No token provided.' });
+    }
+    jwt.verify(token, SECRET_KEY, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ message: 'Invalid or expired token.' });
+        }
+        res.sendFile(path.join(__dirname, '../Public/Pages', 'dashboard.html'));
+    });
 });
 
 
-/**
- *  function to generate a user token
- */
-function generateToken() {
-    return Math.random().toString(36).substring(2); // Replace with JWT for real implementation
-}
 
 /**
  * Route for logging user in
@@ -126,31 +129,4 @@ async function getUsers() {
  */
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
-});
-
-
- /**
-  *  The code below is used to control whether the user is about to
-  *  login or log out of account for the website. It first will check 
-  *  to see if the login link is present, if so then it will check if
-  *  there is a token in the session storage, if so then set the 
-  *  text content of the link to 'log out' and the href to 'index'.
-  *  If there is no token in session storage then set the link href
-  *  to 'login' and set the text content to 'Admin'. 
- */
- document.addEventListener('DOMContentLoaded', () => {
-    const loginLink = document.getElementById('loginBtn');
-    if (loginLink) {
-        if (sessionStorage.getItem('token')) {
-            loginLink.textContent = 'Log Out';
-            loginLink.href = '/index';
-            
-            loginLink.addEventListener('click', () => {
-                sessionStorage.removeItem('token');
-            });
-        } else {
-            loginLink.textContent = 'Admin';
-            loginLink.href = '/login';
-        }
-    }
 });
