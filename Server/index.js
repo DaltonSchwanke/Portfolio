@@ -34,7 +34,6 @@ app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, '../Public/Pages', 'signup.html'));
 });
 
-
 /**
  *  Route for login page
  */
@@ -42,32 +41,20 @@ app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, '../Public/Pages', 'login.html'));
 });
 
-
 /**
  *  Route for dashboard page
  */
 app.get('/dashboard', (req, res) => {
-    const token = req.headers['authorization']?.split(' ')[1];
-    if (!token) {
-        return res.status(401).json({ message: 'Unauthorized access. No token provided.' });
-    }
-    jwt.verify(token, SECRET_KEY, (err, decoded) => {
-        if (err) {
-            return res.status(401).json({ message: 'Invalid or expired token.' });
-        }
-        res.sendFile(path.join(__dirname, '../Public/Pages', 'dashboard.html'));
-    });
+  res.sendFile(path.join(__dirname, '../Public/Pages', 'dashboard.html'));
 });
-
-
 
 /**
  * Route for logging user in
  */
 app.post('/login', async (req, res) => {
     const { user, pass } = req.body;
-    const users = await getUsers();
-    const foundUser = users.find((u) => u.username === user);
+    const users = await getUsers(); // getUsers now handles the updated JSON structure
+    const foundUser = users.user.find((u) => u.username === user); // Access user data under 'user' category
     if (!foundUser) {
         return res.status(401).json({ message: 'Invalid username or password' });
     }
@@ -75,14 +62,14 @@ app.post('/login', async (req, res) => {
     if (!isPasswordMatch) {
         return res.status(401).json({ message: 'Invalid username or password' });
     } else {
-        const token = jwt.sign({ username: user.username }, JWT_SECRET, { expiresIn: '3h' });
+        const token = jwt.sign({ username: user }, JWT_SECRET, { expiresIn: '3h' });
         return res.status(200).json({ message: 'Login successful', token });
     }
 });
 
 /**
-*  Route for signing user up
-*/
+ *  Route for signing user up
+ */
 app.post('/signup', async (req, res) => {
     const { user, pass } = req.body;
     if (!user || !pass) {
@@ -92,15 +79,61 @@ app.post('/signup', async (req, res) => {
     const newUser = { username: user, password: hashedPassword };
     try {
       const data = await fs.readFile('data.json', 'utf8');
-      const users = JSON.parse(data || '[]');
-      users.push(newUser);
-      await fs.writeFile('data.json', JSON.stringify(users, null, 2));
+      const jsonData = JSON.parse(data || '{}');
+      jsonData.user.push(newUser); // Add user to the 'user' category
+      await fs.writeFile('data.json', JSON.stringify(jsonData, null, 2));
       res.status(200).json({ message: 'User signed up successfully!' });
     } catch (err) {
       console.error('Error saving user data:', err);
       res.status(500).json({ message: 'Error saving user data.' });
     }
 });
+
+/**
+ *  The code below is used to get the content for the welcome 
+ *  section on the home page for the site. It first grab the 
+ *  data from the 'data.json' file and then creates a json object
+ *  before sending it back to the client. 
+ */
+app.get('/welcome', async (req, res) => {
+  try {
+    const wData = await fs.readFile(usersFilePath, 'utf-8');
+    const wjsonData = JSON.parse(wData);
+    const welcomeData = wjsonData.welcome;
+    res.json({
+      title: welcomeData.title,
+      message: welcomeData.message
+    });
+  } catch (err) {
+    console.error('Error reading data file:', err);
+    res.status(500).json({ message: 'Error fetching welcome data.' });
+  }
+});
+
+/**
+ *  The request below is used to get the contact content from 
+ *  'data.json'. It queries for the data in the file and then it 
+ *  gets the object 'contact' from the data that is sent back. 
+ *  it then sets the data in the object to the response data, 
+ *  and then sends it. If it can't find it then it sends back an 
+ *  error. 
+ */
+app.get('/contact', async (req, res) => {
+  try{
+    const cData = await fs.readFile(usersFilePath, 'utf-8');
+    const cjsondata = JSON.parse(cData);
+    const contactData = cjsondata.contact;
+    res.json({
+      phone: contactData.phone,
+      email: contactData.email,
+      linkedIn: contactData.linkedin,
+      github: contactData.github
+    });
+  } catch (err){
+    console.error('Error reading data file:', err);
+    res.status(500).json({ message: 'Error fetching contact data.' });
+  }
+})
 
 
 /**
@@ -113,16 +146,13 @@ app.post('/signup', async (req, res) => {
 async function getUsers() {
     try {
       const data = await fs.readFile(usersFilePath, 'utf-8');
-      return JSON.parse(data);
+      const jsonData = JSON.parse(data);
+      return jsonData; // Returning the whole JSON object, which includes 'user' and 'welcome' categories
     } catch (err) {
       console.error('Error reading users file:', err);
-      return [];
+      return {};
     }
 }
-
-
-
-
 
 /**
  *  Start Server

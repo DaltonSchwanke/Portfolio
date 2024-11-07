@@ -8,6 +8,67 @@
   *  to 'login' and set the text content to 'Admin'. 
  */
 document.addEventListener('DOMContentLoaded', () => {
+
+    /**
+     *  The request below gets the welcome message for the welcome 
+     *  section. It will get back the title and welcome message. From 
+     *  here it will check if the section is shown, if so it will create
+     *  new elements for each elements before appending it to the welcome
+     *  section. 
+     */
+    fetch('/welcome').then(response => response.json()).then(data => {
+        title = data.title || "Dalton's Portfolio";
+        message = data.message || "It looks like were experience some technical difficulties at the moment";
+        const welcomeSection = document.getElementById('welcome');
+        if(welcomeSection){
+            welcomeSection.innerHTML = '';
+            const titleElement = document.createElement('h2');
+            titleElement.textContent = title;
+            const messageElement = document.createElement('p');
+            messageElement.textContent = message;
+            welcomeSection.appendChild(titleElement);
+            welcomeSection.appendChild(messageElement);
+        }
+    }).catch(err => {
+        console.error('Error fetching welcome data:', err);
+    });
+
+
+
+    /**
+     *  The request below gets the contact information from the back
+     *  end of the site. It will get back the email, phone, linkedIn
+     *  and Github. Then it will check if the contact section is shown
+     *  if so then it will create new elements that will hold each 
+     *  piece of information before it appends it to the contact section.
+     */
+    fetch('/contact').then(response => response.json()).then(data => {
+        phone = data.phone || "No Title Available";
+        email = data.email || "No Message Available";
+        linkedIn = data.linkedIn || "No Title Available";
+        github = data.github || "No Message Available";
+        const contactSection = document.getElementById('contact');
+        if(contactSection){
+            const phoneElement = document.createElement('p');
+            phoneElement.textContent = phone;
+            const emailElement = document.createElement('p');
+            emailElement.textContent = email;
+            const linkedInElement = document.createElement('button');
+            linkedInElement.textContent = linkedIn;
+            const githubElement = document.createElement('button');
+            githubElement.textContent = github;
+
+            contactSection.appendChild(phoneElement);
+            contactSection.appendChild(emailElement);
+            contactSection.appendChild(linkedInElement);
+            contactSection.appendChild(githubElement);
+        }
+    }).catch(err => {
+        console.error('Error fetching welcome data:', err);
+    });
+
+
+
     const loginLink = document.getElementById('loginBtn');
     const dashboardLink = document.getElementById('dashboardLink');
     if (loginLink) {
@@ -31,17 +92,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
+
+
     if (dashboardLink) {
         dashboardLink.addEventListener('click', async (event) => {
-            event.preventDefault(); // Prevent the default link behavior
-
-            const token = sessionStorage.getItem('token'); // Get token from sessionStorage
+            event.preventDefault();
+            const token = sessionStorage.getItem('token');
             if (!token) {
-                window.location.href = '/login'; // Redirect to login if no token
+                window.location.href = '/login';
                 return;
             }
-
-            // Send token in Authorization header
             try {
                 const response = await fetch('/dashboard', {
                     method: 'GET',
@@ -49,17 +109,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-
                 if (response.ok) {
-                    // If the response is OK (valid token), navigate to dashboard
                     window.location.href = '/dashboard';
                 } else {
-                    // If token is invalid, redirect to login
                     window.location.href = '/login';
                 }
             } catch (error) {
                 console.error('Error fetching dashboard:', error);
-                window.location.href = '/login'; // On error, redirect to login
+                window.location.href = '/login';
             }
         });
     }

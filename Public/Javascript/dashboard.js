@@ -8,6 +8,35 @@
   *  to 'login' and set the text content to 'Admin'. 
  */
 document.addEventListener('DOMContentLoaded', () => {
+
+    fetch('/welcome').then(response => response.json()).then(data => {
+        // Set the variables with the data returned from the server
+        title = data.title || "No Title Available";
+        message = data.message || "No Message Available";
+        // For now, log the variables to the console to verify
+        console.log("Title:", title);
+        console.log("Message:", message);
+    }).catch(err => {
+        console.error('Error fetching welcome data:', err);
+    });
+
+    fetch('/contact').then(response => response.json()).then(data => {
+        // Set the variables with the data returned from the server
+        phone = data.phone || "No Title Available";
+        email = data.email || "No Message Available";
+        linkedIn = data.linkedIn || "No Title Available";
+        github = data.github || "No Message Available";
+
+        // For now, log the variables to the console to verify
+        console.log(phone);
+        console.log(email);
+        console.log(linkedIn);
+        console.log(github);
+    }).catch(err => {
+        console.error('Error fetching welcome data:', err);
+    });
+
+
     const loginLink = document.getElementById('loginBtn');
     const dashboardLink = document.getElementById('dashboardLink');
     if (loginLink) {
@@ -30,38 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 dashboardLink.style.display = 'none';
             }
         }
-    }
-    if (dashboardLink) {
-        dashboardLink.addEventListener('click', async (event) => {
-            event.preventDefault(); // Prevent the default link behavior
-
-            const token = sessionStorage.getItem('token'); // Get token from sessionStorage
-            if (!token) {
-                window.location.href = '/login'; // Redirect to login if no token
-                return;
-            }
-
-            // Send token in Authorization header
-            try {
-                const response = await fetch('/dashboard', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (response.ok) {
-                    // If the response is OK (valid token), navigate to dashboard
-                    window.location.href = '/dashboard';
-                } else {
-                    // If token is invalid, redirect to login
-                    window.location.href = '/login';
-                }
-            } catch (error) {
-                console.error('Error fetching dashboard:', error);
-                window.location.href = '/login'; // On error, redirect to login
-            }
-        });
     }
 });
 

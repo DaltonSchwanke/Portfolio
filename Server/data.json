@@ -1,6 +1,18 @@
-[
-  {
-    "username": "DaltonSchwankeWebsiteAdmin",
-    "password": "$2b$10$8ClYzWNWK2BS08OcmzVul.bxbIIjdYVpitYtOfAuvGrDZe8E8u66."
+{
+  "user": [
+    {
+      "username": "DaltonSchwankeWebsiteAdmin",
+      "password": "$2b$10$8ClYzWNWK2BS08OcmzVul.bxbIIjdYVpitYtOfAuvGrDZe8E8u66."
+    }
+  ],
+  "welcome": {
+    "title": "Welcome to the Site!",
+    "message": "We are glad to have you here. Explore and enjoy the content!"
+  },
+  "contact":{
+    "phone": "651-260-2430",
+    "email": "dtschwanke@gmail.com",
+    "linkedin": "linkedin.com",
+    "github": "github.com"
   }
-]
+}
