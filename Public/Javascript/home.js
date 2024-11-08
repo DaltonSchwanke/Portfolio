@@ -35,6 +35,158 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    fetch('/projects').then(response => response.json()).then(data => {
+        const projects = data.projects;
+        const projectSection = document.getElementById("projects");
+        projects.forEach(project => {
+            const projectDiv = document.createElement('div');
+            const title = document.createElement('h2');
+            title.textContent = project.title;
+            const company = document.createElement('h3');
+            company.textContent = project.company;
+            const dates = document.createElement('h4');
+            dates.textContent = project.date;
+            const githublink = document.createElement("a");
+            githublink.href = project.github;
+            const githubImg = document.createElement('img');
+            githubImg.classList.add("projectGithubImg");
+            githubImg.src = '/Resources/githubLogo.png';
+            if(project.github){
+                githublink.src = project.github;
+                githublink.target = "__blank";
+            }
+            const description = document.createElement('p');
+            description.textContent = project.description;
+            githublink.append(githubImg);
+            projectDiv.append(title);
+            projectDiv.append(company);
+            projectDiv.append(dates);
+            projectDiv.append(githublink);
+            projectDiv.append(description);
+            projectSection.append(projectDiv);
+        });
+
+    }).catch(err => {
+        console.error('Error fetching project data:', err);
+    });
+
+
+
+
+
+    /**
+     * 
+     */
+    fetch('/experience').then(response => response.json()).then(data => {
+        const experiences = data.experience;
+        const experienceSection = document.getElementById("experience");
+        experiences.forEach(experience => {
+            const experienceDiv = document.createElement('div');
+            const company = document.createElement('h2');
+            company.textContent = experience.company;
+            const title = document.createElement('h3');
+            title.textContent = experience.title;
+            const dates = document.createElement('h4');
+            dates.textContent = experience.dates;
+            //const logo = document.createElement('img');
+            //logo.src = experience.logo;
+            const description = document.createElement('p');
+            description.textContent = experience.description;
+
+            experienceDiv.append(company);
+            experienceDiv.append(title);
+            experienceDiv.append(dates);
+            experienceDiv.append(description);
+            experienceSection.append(experienceDiv);
+        });
+    }).catch(err => {
+        console.error("Error fetching experience data:", err);
+    });
+
+
+    /**
+     *  Below is code used to get the about section content. It will
+     *  send a request to the server and then set the data sent back
+     *  to two objects, 'texts' and 'images'. From here it will then 
+     *  create new sections for each text and image, if the image
+     *  source doesn't work then it will create a different element
+     *  containing the caption for the image.
+     */
+    fetch('/about').then(response => response.json()).then(data => {
+        texts = data.texts || [];
+        images = data.images || "No Images available";
+        const aboutSection = document.getElementById("about");
+        texts.forEach(textItem => {
+            const textSection = document.createElement('section');
+            textSection.classList.add('text-item');
+            const heading = document.createElement('h3');
+            heading.textContent = textItem.heading;
+            const content = document.createElement('p');
+            content.textContent = textItem.content;
+            textSection.appendChild(heading);
+            textSection.appendChild(content);
+            aboutSection.appendChild(textSection);
+        });
+        images.forEach(image => {
+            const imageSection = document.createElement('section');
+            imageSection.classList.add('image-item');
+            const img = document.createElement('img');
+            img.alt = image.caption;
+            img.src = image.url;
+            img.onerror = function() {
+                const fallbackText = document.createElement('div');
+                fallbackText.textContent = image.caption;
+                fallbackText.style.color = 'gray';
+                aboutSection.append(fallbackText);
+            };
+            aboutSection.append(imageSection);
+        })
+    }).catch(err => {
+        console.error("Error fetching about data:", err);
+    });
+
+
+
+    /** 
+     *  This section is used to get the data for the education section
+     *  it once it gets the data back it will loop through each item in
+     *  the array. For each item it will create a new element for that 
+     *  piece of data before appending it to it's div container and 
+     *  then to the 'aboutSection' on the home page. 
+     */
+    fetch('/education').then(response => response.json()).then(data => {
+        const educations = data.educations;
+        const educationSection = document.getElementById("education");
+        educations.forEach(education => {
+            const educationDiv = document.createElement('div');
+            const school = document.createElement('h2');
+            school.textContent = education.school;
+            const title = document.createElement('h3');
+            title.textContent = education.title;
+            const dates = document.createElement('h4');
+            dates.textContent = education.dates;
+            const logo = document.createElement('img');
+            logo.classList.add("educationImg");
+            logo.src = education.logo || "/Resources/education.png";
+            const description = document.createElement('p');
+            description.textContent = education.description;
+            educationDiv.append(school);
+            educationDiv.append(title);
+            educationDiv.append(dates);
+            educationDiv.append(logo);
+            educationDiv.append(description);
+            educationSection.append(educationDiv);
+        });
+    }).catch(err => {
+        console.error("Error fetching education data:", err);
+    });
+
+
+
+
+
+
+
     /**
      *  The request below gets the contact information from the back
      *  end of the site. It will get back the email, phone, linkedIn
@@ -43,21 +195,35 @@ document.addEventListener('DOMContentLoaded', () => {
      *  piece of information before it appends it to the contact section.
      */
     fetch('/contact').then(response => response.json()).then(data => {
-        phone = data.phone || "No Title Available";
-        email = data.email || "No Message Available";
-        linkedIn = data.linkedIn || "No Title Available";
-        github = data.github || "No Message Available";
+        phone = data.phone || "Current not reachable by phone";
+        email = data.email || "Currently not reachable by phone";
+        linkedIn = data.linkedIn || "Not very professional of me to not have my linked in linked";
+        github = data.github;
         const contactSection = document.getElementById('contact');
         if(contactSection){
             const phoneElement = document.createElement('p');
             phoneElement.textContent = phone;
             const emailElement = document.createElement('p');
             emailElement.textContent = email;
-            const linkedInElement = document.createElement('button');
-            linkedInElement.textContent = linkedIn;
-            const githubElement = document.createElement('button');
-            githubElement.textContent = github;
-
+            const linkedInElement = document.createElement('a');
+            const linkedinImg = document.createElement('img');
+            linkedinImg.id = 'linkedInButton';
+            linkedinImg.src = "/Resources/linkedInLogo.png"; 
+            if(linkedIn){
+                linkedInElement.href = linkedIn;
+                linkedInElement.target = "__blank";
+                console.log("got here");
+            }
+            const githubElement = document.createElement('a');
+            const githubImg = document.createElement('img');
+            githubImg.id = 'githubButton';
+            githubImg.src = "/Resources/githubLogo.png"; 
+            if(github){
+                githubElement.href = github;
+                githubElement.target = "__blank";
+            }
+            linkedInElement.append(linkedinImg);
+            githubElement.append(githubImg);
             contactSection.appendChild(phoneElement);
             contactSection.appendChild(emailElement);
             contactSection.appendChild(linkedInElement);

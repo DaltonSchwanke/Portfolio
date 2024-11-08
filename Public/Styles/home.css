@@ -16,6 +16,18 @@ html {
     flex: 1;
 }
 
+.projectGithubImg{
+    max-width: 5% !important;
+    min-height: 5% !important;
+}
+
+.educationImg{
+    max-width: 10% !important;
+    max-height: 10% !important;
+}
+
+
+
 /* Footer styling */
 footer {
     background-color: #333;
@@ -25,4 +37,14 @@ footer {
 
 #dashboardLink {
     display: none;
+}
+
+#githubButton{
+    width: 10%;
+    height: 10%;
+}
+
+#linkedInButton{
+    width: 20% !important;
+    height: 20%;
 }

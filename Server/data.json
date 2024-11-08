@@ -9,10 +9,86 @@
     "title": "Welcome to the Site!",
     "message": "We are glad to have you here. Explore and enjoy the content!"
   },
-  "contact":{
+  "contact": {
     "phone": "651-260-2430",
     "email": "dtschwanke@gmail.com",
-    "linkedin": "linkedin.com",
-    "github": "github.com"
-  }
+    "linkedin": "https://www.linkedin.com/in/dalton-schwanke-4bbb451a1/",
+    "github": "https://github.com/DaltonSchwanke"
+  },
+  "about": {
+    "texts": [
+      {
+        "heading": "About Our Mission",
+        "content": "Our mission is to provide the best user experience."
+      },
+      {
+        "heading": "Our Vision",
+        "content": "To lead the industry through innovation and dedication."
+      }
+    ],
+    "images": [
+      {
+        "url": "path/to/image1.jpg",
+        "caption": "Our Team at Work"
+      },
+      {
+        "url": "path/to/image2.jpg",
+        "caption": "Company Headquarters"
+      }
+    ]
+  },
+  "education": [
+    {
+      "school": "University of St. Thomas",
+      "title": "Bachelor of Science in Computer Science",
+      "dates": "2019 - 2023",
+      "logo": "/Resources/stthomas.png",
+      "description": "Studied software engineering, algorithms, and data structures, with a focus on backend development and cybersecurity."
+    },
+    {
+      "school": "Example Technical School",
+      "title": "Diploma in Software Development",
+      "dates": "2017 - 2019",
+      "logo": "",
+      "description": "Gained foundational skills in programming, databases, and web development."
+    }
+  ],
+  "experience": [
+    {
+      "company": "VML",
+      "title": "Technology Intern",
+      "dates": "2023 - 2024",
+      "logo": "path/to/logo.png",
+      "description": "Studied software engineering, algorithms, and data structures, with a focus on backend development and cybersecurity."
+    },
+    {
+      "company": "Audi",
+      "title": "Automotive Detail",
+      "dates": "2023 - 2024",
+      "logo": "path/to/logo.png",
+      "description": "Studied software engineering, algorithms, and data structures, with a focus on backend development and cybersecurity."
+    }
+  ],
+  "projects": [
+    {
+      "title":"Thematic",
+      "url": "https://exampleproject.com",
+      "github": "https://github.com/username/exampleproject",
+      "thumbnail": "path/to/thumbnail.jpg",
+      "date": "2024-11-07",
+      "description": "A brief description of the project, detailing its purpose and main features.",
+      "languages": ["JavaScript", "HTML", "CSS"],
+      "frameworks": ["React", "Node.js"]
+    },
+    {
+      "title": "gigit",
+      "url": "https://anotherproject.com",
+      "github": "https://github.com/username/anotherproject",
+      "thumbnail": "path/to/another-thumbnail.jpg",
+      "date": "2024-10-15",
+      "description": "Another project description, highlighting the objectives and technology used.",
+      "languages": ["Python", "JavaScript"],
+      "frameworks": ["Django", "React"]
+    }
+  ]
 }

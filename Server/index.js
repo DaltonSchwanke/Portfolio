@@ -110,6 +110,89 @@ app.get('/welcome', async (req, res) => {
   }
 });
 
+
+app.get('/projects', async (req, res) => {
+  try{
+    const pData = await fs.readFile(usersFilePath, 'utf-8');
+    const pjsonData = JSON.parse(pData);
+    const projectData = pjsonData.projects;
+    res.json({
+      projects: projectData
+    });
+  } catch (err) {
+    console.error('Error reading data file', err);
+    res.status(500).json({ message: 'Error fetching project data. '});
+  }
+}); 
+
+
+
+/** 
+ *  This route is used to get education data from the 
+ *  file 'user.json'. It will read the file and get the 
+ *  education data. It will then put it in a json object before
+ *  it sends it to the client. 
+ */
+app.get('/education', async (req, res) => {
+  try{
+    const eData = await fs.readFile(usersFilePath, 'utf-8');
+    const ejsonData = JSON.parse(eData);
+    const educationData = ejsonData.education;
+    res.json({
+      educations: educationData
+    });
+  } catch (err){
+    console.error("Education: Error reading data file:", err);
+    res.status(500).json({ message: 'Error fetching education data'});
+  }  
+});
+
+
+/**
+ *  This route gets the experience data for the client. It will 
+ *  first get read the file 'data.json' and get the experience 
+ *  data. From tehre it will set the data in a json file before
+ *  sending it back. 
+ */
+app.get('/experience', async (req, res) => {
+  try{
+    const exData = await fs.readFile(usersFilePath, 'utf-8');
+    const exjsonData = JSON.parse(exData);
+    const experienceData = exjsonData.experience;
+    res.json({
+      experience: experienceData
+    });
+  } catch (err){
+    console.error("Experience: Error reading data file:", err);
+    res.status(500).json({ message: 'Error fetching experience data'});
+  }  
+});
+
+
+/**
+ *  The request below is used to get the about section data from the
+ *  file 'data.json'. It will then parse the about data and set the
+ *  new json data to a new object before passing the data back to
+ *  the client. 
+ */
+app.get('/about', async (req, res) => {
+  try {
+    const aData = await fs.readFile(usersFilePath, 'utf-8');
+    const ajsonData = JSON.parse(aData);
+    const aboutData = ajsonData.about;
+
+    console.log('About Data:', aboutData); // Debugging: Inspect content
+    res.json({
+      texts: aboutData.texts,
+      images: aboutData.images
+    });
+  } catch (err) {
+    console.error('About: Error reading data file:', err);
+    res.status(500).json({ message: 'Error fetching about data' });
+  }
+});
+
+
 /**
  *  The request below is used to get the contact content from 
  *  'data.json'. It queries for the data in the file and then it 
@@ -130,11 +213,10 @@ app.get('/contact', async (req, res) => {
       github: contactData.github
     });
   } catch (err){
-    console.error('Error reading data file:', err);
+    console.error('Contact: Error reading data file:', err);
     res.status(500).json({ message: 'Error fetching contact data.' });
   }
-})
-
+});
 
 /**
  *  Helper function used in login route
