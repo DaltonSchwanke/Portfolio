@@ -91,7 +91,7 @@ app.post('/signup', async (req, res) => {
 
 /**
  *  The code below is used to get the content for the welcome 
- *  section on the home page for the site. It first grab the 
+ *  section on the home page for the site. It first grabs the 
  *  data from the 'data.json' file and then creates a json object
  *  before sending it back to the client. 
  */
@@ -125,6 +125,50 @@ app.get('/projects', async (req, res) => {
   }
 }); 
 
+/**
+ *  The route below is used to get the languages to the website. It will 
+ *  get read the file that is specified and then it will get the language
+ *  data and set it in a json object before it sends it back, if there is
+ *  an error along the way it will instead send an error message back and 
+ *  post an error in the console.
+ */
+app.get('/languages', async (req, res) => {
+  try{
+    const lData = await fs.readFile(usersFilePath, 'utf-8');
+    const ljsonData = JSON.parse(lData);
+    const languagetData = ljsonData.languages;
+    console.log(languagetData);
+    res.json({
+      languages: languagetData
+    });
+  } catch (err) {
+    console.error('Error reading data file', err);
+    res.status(500).json({ message: 'Error fetching language data. '});
+  }
+}); 
+
+
+/**
+ *  The route below is used to get the framework data for the website. 
+ *  It will read the data.json file and then get the framework data from it,
+ *  from there it will place it in a json object before sending it back. If
+ *  there is an error along the way, it will then send back an error message
+ *  and post the error to the console. 
+ */
+app.get('/frameworks', async (req, res) => {
+  try{
+    const fData = await fs.readFile(usersFilePath, 'utf-8');
+    const fjsonData = JSON.parse(fData);
+    const frameworkData = fjsonData.frameworks;
+    console.log(frameworkData);
+    res.json({
+      frameworks: frameworkData
+    });
+  } catch (err) {
+    console.error('Error reading data file', err);
+    res.status(500).json({ message: 'Error fetching framework data. '});
+  }
+}); 
 
 
 /** 

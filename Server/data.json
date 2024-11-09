@@ -90,5 +90,26 @@
       "languages": ["Python", "JavaScript"],
       "frameworks": ["Django", "React"]
     }
+  ],
+  "languages": [
+    {
+      "name": "java",
+      "logo": "/Resources/stthomas.png"
+    },
+    {
+      "name": "javascript",
+      "logo": "/Resources/stthomas.png"
+    }
+  ],
+  "frameworks": [
+    {
+      "name": "tailwind",
+      "logo": "/Resources/stthomas.png"
+    },
+    {
+      "name": "Angular",
+      "logo": "/Resources/stthomas.png"
+    }
   ]
+  
 }

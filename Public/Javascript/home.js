@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
      *  The request below gets the welcome message for the welcome 
      *  section. It will get back the title and welcome message. From 
      *  here it will check if the section is shown, if so it will create
-     *  new elements for each elements before appending it to the welcome
+     *  new elements for each element before appending it to the welcome
      *  section. 
      */
     fetch('/welcome').then(response => response.json()).then(data => {
@@ -68,6 +68,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }).catch(err => {
         console.error('Error fetching project data:', err);
+    });
+
+
+    /**
+     *  The route below is used to get the languages from the server
+     *  it for now just sets the data to a new variable. This code will 
+     *  be used in creating a new project and the adding new languages 
+     *  to the website. 
+     */
+    fetch("/languages").then(response => response.json()).then(data => {
+        const languages = data.languages;
+    }).catch(err => {
+        console.error('Error fetching language data:', err);
+    });
+
+
+
+    /**
+     *  The route below is used to get the frameworks from the server
+     *  it for now when it returns it will just set it to an object, this code
+     *  will later be used in the functionality in adding a new theme and adding
+     *  new frameworks to the website. 
+     */
+    fetch("/frameworks").then(response => response.json()).then(data => {
+        const frameworks = data.frameworks;
+    }).catch(err => {
+        console.error('Error fetching framework data:', err);
     });
 
 
