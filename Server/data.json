@@ -28,11 +28,11 @@
     ],
     "images": [
       {
-        "url": "path/to/image1.jpg",
+        "url": "",
         "caption": "Our Team at Work"
       },
       {
-        "url": "path/to/image2.jpg",
+        "url": "",
         "caption": "Company Headquarters"
       }
     ]
@@ -58,14 +58,14 @@
       "company": "VML",
       "title": "Technology Intern",
       "dates": "2023 - 2024",
-      "logo": "path/to/logo.png",
+      "logo": "/Resources/vml.png",
       "description": "Studied software engineering, algorithms, and data structures, with a focus on backend development and cybersecurity."
     },
     {
       "company": "Audi",
       "title": "Automotive Detail",
       "dates": "2023 - 2024",
-      "logo": "path/to/logo.png",
+      "logo": "",
       "description": "Studied software engineering, algorithms, and data structures, with a focus on backend development and cybersecurity."
     }
   ],

@@ -1,3 +1,4 @@
+
  /**
   *  The code below is used to control whether the user is about to
   *  login or log out of account for the website. It first will check 
@@ -8,6 +9,10 @@
   *  to 'login' and set the text content to 'Admin'. 
  */
 document.addEventListener('DOMContentLoaded', () => {
+
+
+    const token = sessionStorage.getItem('token');
+    console.log(token || "no token");
 
     /**
      *  The request below gets the welcome message for the welcome 
@@ -34,7 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-
+    /**
+     *  The route below is used to get the project data for the page.
+     *  Once the data is set back it will create a variable linked to
+     *  the section that the data will go in on the page. From here it
+     *  will iterate over all the projects, creating new elements in the 
+     *  and finally appending it to the section. 
+     */
     fetch('/projects').then(response => response.json()).then(data => {
         const projects = data.projects;
         const projectSection = document.getElementById("projects");
@@ -84,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-
     /**
      *  The route below is used to get the frameworks from the server
      *  it for now when it returns it will just set it to an object, this code
@@ -98,11 +108,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-
-
-
     /**
-     * 
+     *  The fetch method below is used to get the experience data from the
+     *  server. It will then set the data sent back as a variable, then 
+     *  create a variable for the section the content will go on the page. 
+     *  From there it will iterate over each item in experiences, creating
+     *  new elements for each piece of data. Finally it will append it to
+     *  the page section. 
      */
     fetch('/experience').then(response => response.json()).then(data => {
         const experiences = data.experience;
@@ -115,11 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
             title.textContent = experience.title;
             const dates = document.createElement('h4');
             dates.textContent = experience.dates;
-            //const logo = document.createElement('img');
-            //logo.src = experience.logo;
+            const logo = document.createElement('img');
+            logo.classList.add("experienceImg");
+            logo.src = experience.logo || "/Resources/genericExperience.png";
             const description = document.createElement('p');
             description.textContent = experience.description;
-
+            experienceDiv.append(logo);
             experienceDiv.append(company);
             experienceDiv.append(title);
             experienceDiv.append(dates);
@@ -128,6 +141,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }).catch(err => {
         console.error("Error fetching experience data:", err);
+    });
+
+
+    /** 
+     *  This section is used to get the data for the education section
+     *  it once it gets the data back it will loop through each item in
+     *  the array. For each item it will create a new element for that 
+     *  piece of data before appending it to it's div container and 
+     *  then to the 'aboutSection' on the home page. 
+     */
+    fetch('/education').then(response => response.json()).then(data => {
+        const educations = data.educations;
+        const educationSection = document.getElementById("education");
+        educations.forEach(education => {
+            const educationDiv = document.createElement('div');
+            const school = document.createElement('h2');
+            school.textContent = education.school;
+            const title = document.createElement('h3');
+            title.textContent = education.title;
+            const dates = document.createElement('h4');
+            dates.textContent = education.dates;
+            const logo = document.createElement('img');
+            logo.classList.add("educationImg");
+            logo.src = education.logo || "/Resources/education.png";
+            const description = document.createElement('p');
+            description.textContent = education.description;
+            educationDiv.append(school);
+            educationDiv.append(title);
+            educationDiv.append(dates);
+            educationDiv.append(logo);
+            educationDiv.append(description);
+            educationSection.append(educationDiv);
+        });
+    }).catch(err => {
+        console.error("Error fetching education data:", err);
     });
 
 
@@ -171,47 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(err => {
         console.error("Error fetching about data:", err);
     });
-
-
-
-    /** 
-     *  This section is used to get the data for the education section
-     *  it once it gets the data back it will loop through each item in
-     *  the array. For each item it will create a new element for that 
-     *  piece of data before appending it to it's div container and 
-     *  then to the 'aboutSection' on the home page. 
-     */
-    fetch('/education').then(response => response.json()).then(data => {
-        const educations = data.educations;
-        const educationSection = document.getElementById("education");
-        educations.forEach(education => {
-            const educationDiv = document.createElement('div');
-            const school = document.createElement('h2');
-            school.textContent = education.school;
-            const title = document.createElement('h3');
-            title.textContent = education.title;
-            const dates = document.createElement('h4');
-            dates.textContent = education.dates;
-            const logo = document.createElement('img');
-            logo.classList.add("educationImg");
-            logo.src = education.logo || "/Resources/education.png";
-            const description = document.createElement('p');
-            description.textContent = education.description;
-            educationDiv.append(school);
-            educationDiv.append(title);
-            educationDiv.append(dates);
-            educationDiv.append(logo);
-            educationDiv.append(description);
-            educationSection.append(educationDiv);
-        });
-    }).catch(err => {
-        console.error("Error fetching education data:", err);
-    });
-
-
-
-
-
 
 
     /**
@@ -262,55 +269,86 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    /**
+     *  This code manages the login link in the footer of the 
+     *  page, it creates a variable assigned to it and then 
+     *  will check if the user has a token, if so it will 
+     *  set the button's text content to 'log out' and have
+     *  the user redirected back home, otherwise it will 
+     *  have the text content 'Admin' and have the href set 
+     *  to the login page. 
+     */
     const loginLink = document.getElementById('loginBtn');
-    const dashboardLink = document.getElementById('dashboardLink');
     if (loginLink) {
-        if (sessionStorage.getItem('token')) {
-            loginLink.textContent = 'Log Out';
-            loginLink.href = '/index';
-            if (dashboardLink) {
-                dashboardLink.style.display = 'block';
-            }
+        if(token){
+            loginLink.textContent = "Log Out";
             loginLink.addEventListener('click', () => {
+                event.preventDefault();
                 sessionStorage.removeItem('token');
-                if (dashboardLink) {
-                    dashboardLink.style.display = 'none';
-                }
-            });
-        } else {
-            loginLink.textContent = 'Admin';
-            loginLink.href = '/login';
-            if (dashboardLink) {
-                dashboardLink.style.display = 'none';
-            }
+                window.location.href = '/index';
+            })
+        }else{
+            loginLink.textContent = "Admin";
+            loginLink.addEventListener('click', () => {
+                event.preventDefault();
+                loginLink.textContent = "Admin";
+                const loginForm = document.getElementById('loginFormContainer');
+                loginForm.style.display = "block";
+            }); 
         }
     }
-
-
-    if (dashboardLink) {
-        dashboardLink.addEventListener('click', async (event) => {
-            event.preventDefault();
-            const token = sessionStorage.getItem('token');
-            if (!token) {
-                window.location.href = '/login';
-                return;
-            }
-            try {
-                const response = await fetch('/dashboard', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                if (response.ok) {
-                    window.location.href = '/dashboard';
-                } else {
-                    window.location.href = '/login';
-                }
-            } catch (error) {
-                console.error('Error fetching dashboard:', error);
-                window.location.href = '/login';
-            }
-        });
-    }
 });
+
+
+/**
+ *  The function below is used to close the login form if the user 
+ *  decides not to log in. This is used in the 'index.html' file.
+ *  It is only going to be used when the form is open. 
+*/
+function closeLogin(){
+    const loginForm = document.getElementById('loginFormContainer');
+    if(loginForm){
+        console.log("close");
+        loginForm.style.display = "none";
+    }
+}
+
+async function loginUser() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    try {   
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        });
+        const result = await response.json();
+        const message = document.createElement('h3');
+        if (response.ok) {
+            console.log(result.token);
+            sessionStorage.setItem('token', result.token);
+            message.textContent = "Hi Dalton!";
+            
+
+        } else {
+            console.log("error logging in");
+            message.textContent = "You aren't Dalton!"
+        }
+        const formBox = document.getElementById('formBox');
+        formBox.innerHTML = '';
+        formBox.append(message);
+        setTimeout(() => {
+            const loginForm = document.getElementById('loginFormContainer');
+            if(loginForm){
+                console.log("close after wait");
+                loginForm.style.display = "none";
+            }  
+            window.location.href = '/'; 
+        },1000);
+    } catch (error) {
+        console.error("Error during login:", error);
+        window.location.href = '/index';
+    }
+}

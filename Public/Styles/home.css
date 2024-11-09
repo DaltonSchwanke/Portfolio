@@ -16,6 +16,46 @@ html {
     flex: 1;
 }
 
+/* Default (Desktop) View */
+#nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+    border-radius: 10px;
+    z-index: 1000;
+  }
+
+  /* Style for the links */
+  .nav-link {
+    display: block;
+    margin: 10px 0;
+    transition: transform 0.3s ease, margin-left 0.3s ease;
+  }
+
+  /* Hover effect when the section is scrolled to */
+  .nav-link.active {
+    transform: scale(1.1); /* Grow the link */
+    margin-left: 10px; /* Move the link slightly away */
+  }
+
+  /* Section style for testing */
+  section {
+    height: 100vh;
+    padding: 20px;
+    margin-left: 120px; /* Give space for fixed nav */
+  }
+
+  /* To differentiate sections */
+  section:nth-child(odd) {
+    background-color: #f4f4f4;
+  }
+
+  section:nth-child(even) {
+    background-color: #dfe6e9;
+  }
+
 .projectGithubImg{
     max-width: 5% !important;
     min-height: 5% !important;
@@ -27,13 +67,53 @@ html {
 }
 
 
-
-/* Footer styling */
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
+.experienceImg{
+    max-width: 10% !important;
+    max-height: 10% !important;
 }
+
+/* Popup background overlay */
+.popup {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Hidden class for hiding elements */
+  .hidden {
+    display: none;
+  }
+  
+  /* Popup content box */
+  .popup-content {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+  }
+  
+  /* Close button */
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+  /* Error message */
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
+
 
 #dashboardLink {
     display: none;
@@ -47,4 +127,24 @@ footer {
 #linkedInButton{
     width: 20% !important;
     height: 20%;
+}
+
+
+
+
+/* Footer styling */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+}
+
+@media (max-width: 768px){
+    #loginBtn {
+        display: none;
+    }
+
+    footer{
+        display: none;
+    }
 }

@@ -12,7 +12,6 @@ const usersFilePath = path.join(__dirname, 'data.json');
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../Public')));
 
-
 /**
  *  Generic Route
  */
@@ -20,12 +19,14 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../Public/Pages', 'index.html'));
 });
 
+
 /**
  *  Route for index (home) page
  */
 app.get('/index', (req, res) => {
     res.sendFile(path.join(__dirname, '../Public/Pages', 'index.html'));
-  });
+});
+
 
 /**
  *  Route for sign in page 
@@ -34,12 +35,14 @@ app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, '../Public/Pages', 'signup.html'));
 });
 
+
 /**
  *  Route for login page
  */
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, '../Public/Pages', 'login.html'));
 });
+
 
 /**
  *  Route for dashboard page
@@ -48,24 +51,27 @@ app.get('/dashboard', (req, res) => {
   res.sendFile(path.join(__dirname, '../Public/Pages', 'dashboard.html'));
 });
 
+
 /**
  * Route for logging user in
  */
 app.post('/login', async (req, res) => {
-    const { user, pass } = req.body;
+    const { username, password } = req.body;
+    console.log(req.body);
     const users = await getUsers(); // getUsers now handles the updated JSON structure
-    const foundUser = users.user.find((u) => u.username === user); // Access user data under 'user' category
+    const foundUser = users.user.find((u) => u.username === username); // Access user data under 'user' category
     if (!foundUser) {
         return res.status(401).json({ message: 'Invalid username or password' });
     }
-    const isPasswordMatch = await bcrypt.compare(pass, foundUser.password);
+    const isPasswordMatch = await bcrypt.compare(password, foundUser.password);
     if (!isPasswordMatch) {
         return res.status(401).json({ message: 'Invalid username or password' });
     } else {
-        const token = jwt.sign({ username: user }, JWT_SECRET, { expiresIn: '3h' });
+        const token = jwt.sign({ username: username }, JWT_SECRET, { expiresIn: '3h' });
         return res.status(200).json({ message: 'Login successful', token });
     }
 });
+
 
 /**
  *  Route for signing user up
@@ -89,6 +95,7 @@ app.post('/signup', async (req, res) => {
     }
 });
 
+
 /**
  *  The code below is used to get the content for the welcome 
  *  section on the home page for the site. It first grabs the 
@@ -111,6 +118,13 @@ app.get('/welcome', async (req, res) => {
 });
 
 
+/**
+ *  The route below is used to get the project data from the 'data.json'
+ *  file. From here it will set the projects to a new variable before
+ *  setting it in a json object before sending it back to the client. If 
+ *  there is an error it will then send back the error message and post 
+ *  an error to the console. 
+ */
 app.get('/projects', async (req, res) => {
   try{
     const pData = await fs.readFile(usersFilePath, 'utf-8');
@@ -124,6 +138,7 @@ app.get('/projects', async (req, res) => {
     res.status(500).json({ message: 'Error fetching project data. '});
   }
 }); 
+
 
 /**
  *  The route below is used to get the languages to the website. It will 
@@ -262,6 +277,7 @@ app.get('/contact', async (req, res) => {
   }
 });
 
+
 /**
  *  Helper function used in login route
  * 
@@ -279,6 +295,7 @@ async function getUsers() {
       return {};
     }
 }
+
 
 /**
  *  Start Server
