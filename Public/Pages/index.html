@@ -11,9 +11,9 @@
   <div class="container-fluid d-flex flex-column min-vh-100">
     <div class="row flex-grow-1">
       <!-- Sidebar -->
-      <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar vh-100">
+      <nav id="nav" class="col-md-3 col-lg-2 d-md-block bg-light sidebar vh-100">
         <div class="position-sticky pt-3">
-          <ul class="nav flex-column">
+          <ul class="navbar flex-column">
             <li class="nav-item">
               <a class="nav-link active" href="#welcome">Welcome</a>
             </li>
@@ -39,7 +39,7 @@
       <!-- Main Content Area -->
       <main class="col-md-9 col-lg-10 ms-sm-auto px-md-4">
         <section id="welcome"><!-- This is where the welcome content is added --></section>
-        <section id="mywork"><!-- This is where the project content is added --></section>
+        <section id="projects"><!-- This is where the project content is added --></section>
         <section id="experience"><!-- This is where the work experience is added --></section>
         <section id="education"><!-- This is wher the education is added --></section>
         <section id="about"><!-- This is where the about content is added --></section>
@@ -50,9 +50,21 @@
     <!-- Footer -->
   </div>
   <footer class="bg-dark text-white text-center py-3">
-    <a id="loginBtn" href="/login"></a>
-    <a id="dashboardLink" href="#">Dashboard</a>
+    <a id="loginBtn" href="">Admin</a>
   </footer>
+
+  <div id="loginFormContainer" class="popup hidden">
+    <div class="popup-content" id="formBox">
+      <button id="closeLogIn" onclick="closeLogin()">&times;</button>
+      <h2 id="loginHeader" >Login</h2>
+      <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="button" onclick="loginUser()">Login</button>
+      </form>
+      <div id="errorMessage" class="error hidden">Incorrect username or password</div>
+    </div>
+  </div>
 
   <script src="../Javascript/home.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
