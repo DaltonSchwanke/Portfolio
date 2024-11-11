@@ -196,6 +196,15 @@ section { /* Page Section */
   box-sizing: border-box;
 }
 
+#experiencePrevBtn { /* Experience Previous Button */
+  left: 10px;
+  z-index: 1000;
+}
+
+#experienceNextBtn { /* Experience Next Button */
+  right: 10px;
+}
+
 .experienceImg{ /* Company Logo */
   max-width: 10% !important;
   max-height: 10% !important;
@@ -276,27 +285,89 @@ section { /* Page Section */
 
 
 /*----------------------------------- Languages + Frameworks Content ----------------------------------*/
+
+#languagesFrameworks { /* Container for Languages + Frameworks */
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
 .languagesContainer { /* Container for Languages */
-  float: left;
+  display: flex;
+  flex-direction: column;
+  width: 48%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.languageContainer { /* Individual Language Item Container */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.languageImg { /* Language Logo */
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.languageName { /* Language Name */
+  flex-grow: 1;
+  margin: 0;
+  font-size: 1em;
+}
+
+.deleteLanguageBtn { /* Delete Button */
+  background-color: transparent;
+  border: none;
+  color: #dc3545;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.frameworksContainer { /* Container for Frameworks */
+  display: flex;
+  flex-direction: column;
   width: 48%;
   padding: 10px;
   box-sizing: border-box; 
 }
 
-.frameworksContainer { /* Container for Framwworks */
-  float: right;
-  width: 48%; 
+.frameworkContainer { /* Individual Framework Item Container */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
   padding: 10px;
-  box-sizing: border-box; 
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
-#experiencePrevBtn { /* Experience Previous Button */
-  left: 10px;
-  z-index: 1000;
+.frameworkImg { /* Framework Logo */
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
 }
 
-#experienceNextBtn { /* Experience Next Button */
-  right: 10px;
+.frameworkName { /* Framework Name */
+  flex-grow: 1;
+  margin: 0;
+  font-size: 1em;
+}
+
+.deleteFrameworkBtn {  /* Delete Framework Button */
+  background-color: transparent;
+  border: none;
+  color: #dc3545;
+  font-size: 1.2em;
+  cursor: pointer;
 }
 
 @media (max-width: 768px){ /* Languages + Mobile Mobile Styles */

@@ -96,21 +96,21 @@
   "languages": [
     {
       "name": "java",
-      "logo": "/Resources/stthomas.png"
+      "logo": ""
     },
     {
       "name": "javascript",
-      "logo": "/Resources/stthomas.png"
+      "logo": ""
     }
   ],
   "frameworks": [
     {
       "name": "tailwind",
-      "logo": "/Resources/stthomas.png"
+      "logo": ""
     },
     {
       "name": "Angular",
-      "logo": "/Resources/stthomas.png"
+      "logo": ""
     }
   ]
   

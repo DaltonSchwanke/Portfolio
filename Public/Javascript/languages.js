@@ -15,16 +15,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const languagesDiv = document.createElement('div');
         languagesDiv.classList.add('languagesContainer');
         if(token){
-            const editBtn = document.createElement('button');
-                editBtn.classList.add('editBtn');
-                editBtn.textContent = "Edit";
-                editBtn.addEventListener('click', () => {
-                    console.log(`Edit Languages Section`);
-                });
-            const test = document.createElement('p');
-            test.textContent = "this works for languages";
-            languagesFrameworks.appendChild(editBtn);
-            languagesDiv.appendChild(test);
+            languages.forEach(language => {
+                const languageDiv = document.createElement('div');
+                languageDiv.classList.add('languageContainer');
+                const languageLogo = document.createElement('img');
+                languageLogo.classList.add('languageImg');
+                languageLogo.src = language.logo || '/Resources/languageGeneric.png';
+                const languageName = document.createElement('h3');
+                languageName.classList.add('languageName');
+                languageName.textContent = language.name || "Oops forgot to put a language name!";
+                const deleteLanguageBtn = document.createElement("button");
+                deleteLanguageBtn.classList.add("deleteLanguageBtn");
+                deleteLanguageBtn.textContent = 'x';
+                languageDiv.appendChild(languageLogo);
+                languageDiv.appendChild(languageName);
+                languageDiv.appendChild(deleteLanguageBtn);
+                languagesDiv.appendChild(languageDiv);
+            });
+        
             languagesFrameworks.appendChild(languagesDiv);
         }
 

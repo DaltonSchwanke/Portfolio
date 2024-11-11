@@ -12,13 +12,27 @@ document.addEventListener('DOMContentLoaded', () => {
       fetch("/frameworks").then(response => response.json()).then(data => {
         const frameworks = data.frameworks;
         const languagesFrameworks = document.getElementById('languagesFrameworks');
-        const frameworksContainer = document.createElement('div');
-        frameworksContainer.classList.add('frameworksContainer');
-        if(token){
-            const test = document.createElement('p');
-            test.textContent = "this works for frameworks";
-            frameworksContainer.appendChild(test);
-            languagesFrameworks.appendChild(frameworksContainer);
+        const frameworksDiv = document.createElement('div');
+        frameworksDiv.classList.add('frameworksContainer');
+        if (token) {
+            frameworks.forEach(framework => {
+                const frameworkDiv = document.createElement('div');
+                frameworkDiv.classList.add('frameworkContainer');
+                const frameworkLogo = document.createElement('img');
+                frameworkLogo.classList.add('frameworkImg');
+                frameworkLogo.src = framework.logo || '/Resources/frameworkGeneric.png';
+                const frameworkName = document.createElement('h3');
+                frameworkName.classList.add('frameworkName');
+                frameworkName.textContent = framework.name || "Oops forgot to put a framework name!";
+                const deleteFrameworkBtn = document.createElement("button");
+                deleteFrameworkBtn.classList.add("deleteFrameworkBtn");
+                deleteFrameworkBtn.textContent = 'x';
+                frameworkDiv.appendChild(frameworkLogo);
+                frameworkDiv.appendChild(frameworkName);
+                frameworkDiv.appendChild(deleteFrameworkBtn);
+                frameworksDiv.appendChild(frameworkDiv);
+            });
+            languagesFrameworks.appendChild(frameworksDiv);
         }
     }).catch(err => {
         console.error('Error fetching framework data:', err);
