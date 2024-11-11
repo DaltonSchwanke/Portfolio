@@ -7,7 +7,9 @@
   ],
   "welcome": {
     "title": "Welcome to the Site!",
-    "message": "We are glad to have you here. Explore and enjoy the content!"
+    "message": "We are glad to have you here. Explore and enjoy the content!",
+    "desktopImg": "",
+    "mobileImg": ""
   },
   "contact": {
     "phone": "651-260-2430",
@@ -74,7 +76,7 @@
       "title":"Thematic",
       "url": "https://exampleproject.com",
       "github": "https://github.com/username/exampleproject",
-      "thumbnail": "path/to/thumbnail.jpg",
+      "thumbnail": "",
       "date": "2024-11-07",
       "description": "A brief description of the project, detailing its purpose and main features.",
       "languages": ["JavaScript", "HTML", "CSS"],
@@ -83,8 +85,8 @@
     {
       "title": "gigit",
       "url": "https://anotherproject.com",
-      "github": "https://github.com/username/anotherproject",
-      "thumbnail": "path/to/another-thumbnail.jpg",
+      "github": "",
+      "thumbnail": "",
       "date": "2024-10-15",
       "description": "Another project description, highlighting the objectives and technology used.",
       "languages": ["Python", "JavaScript"],

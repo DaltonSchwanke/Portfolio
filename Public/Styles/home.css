@@ -1,150 +1,386 @@
-/* Ensure the container takes up the full height */
-body{
-    margin: 0 !important;
+/*------------------------------------------ General Content ------------------------------------------*/
+body{ /* Page Body */
+  margin: 0 !important;
+  padding: 0px !important;
+  background-color: #0e2e43 !important;
 }
 
-html {
-    margin: 0 !important;
+html { /* Page Frame */
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #0e2e43 !important;
 }
 
-.container-fluid {
-    display: flex;
-    flex-direction: column;
+#page{ /* Page Container */
+  background-color: #0e2e43 !important;;
 }
 
-.row.flex-grow-1 {
-    flex: 1;
+.container-fluid { /* Used with Page Container */ 
+  display: flex;
+  flex-direction: column;
 }
 
-/* Default (Desktop) View */
-#nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
-    border-radius: 10px;
-    z-index: 1000;
-  }
-
-  /* Style for the links */
-  .nav-link {
-    display: block;
-    margin: 10px 0;
-    transition: transform 0.3s ease, margin-left 0.3s ease;
-  }
-
-  /* Hover effect when the section is scrolled to */
-  .nav-link.active {
-    transform: scale(1.1); /* Grow the link */
-    margin-left: 10px; /* Move the link slightly away */
-  }
-
-  /* Section style for testing */
-  section {
-    height: 100vh;
-    padding: 20px;
-    margin-left: 120px; /* Give space for fixed nav */
-  }
-
-  /* To differentiate sections */
-  section:nth-child(odd) {
-    background-color: #f4f4f4;
-  }
-
-  section:nth-child(even) {
-    background-color: #dfe6e9;
-  }
-
-.projectGithubImg{
-    max-width: 5% !important;
-    min-height: 5% !important;
+.row.flex-grow-1 { /* Sub-Container for Page Container */
+  flex: 1;
 }
 
-.educationImg{
-    max-width: 10% !important;
-    max-height: 10% !important;
+h1, h2, h3, h4{ /* Headers */
+  color: #dde8e8 !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+}
+
+p{ /* Paragraph */
+  color: #92bdd6 !important;
+  font-size: 1rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+
+a{ /* Links */
+  color:#dde8e8 !important;
+}
+
+div{ /* Container */
+  background-color: transparent;
+}
+
+section { /* Page Section */
+  padding: 0px !important;
+  margin: 0px !important;
+  height: 100vh;
+  width: 100%;
+  margin-bottom: 2rem !important;
+}
+
+.hidden { /* Class for hidding content as default */
+  display: none;
 }
 
 
-.experienceImg{
-    max-width: 10% !important;
-    max-height: 10% !important;
+
+
+.pageSection { /* Content Section Container */
+  position: relative;
+  overflow: hidden;
 }
 
-/* Popup background overlay */
-.popup {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-  }
+.carouselButton { /* Carousel Button */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.editBtn { /* Edit Content Button */
+  position: absolute;
+  top: 10px;
+  right: 40px; 
+  color: #007bff; 
+  cursor: pointer;
+  background: none;
+  border: none;
+  position: absolute;
+  padding: 5px;
+  font-size: 16px;
+}
+
+
+.deleteBtn { /* Delete Content Button */
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #dc3545;
+  cursor: pointer;
+  background: none;
+  border: none;
+  position: absolute;
+  padding: 5px;
+  font-size: 16px;
+}
+
+@media (max-width: 768px){ /* General Mobile Styles */
+
+
+}
+
+
+/*-----------------------------------------------------------------------------------------------------*/
+
+/*------------------------------------------- Navigation Bar ------------------------------------------*/
+#nav { /* Navigation Container */
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: transparent !important;
+  border-radius: 10px;
+  z-index: 500;
+}
   
-  /* Hidden class for hiding elements */
-  .hidden {
+.navbar { /* List For Navigation Links */
+  list-style-type: none;
+}
+
+.nav-item { /* Navigation Link Container */
+  text-align: left;
+}
+  
+.nav-link { /* Navigation Link */
+  display: block;
+  transition: transform 0.3s ease, margin-left 0.3s ease;
+  padding: 0;
+}
+
+@media (max-width: 768px){ /* Navigation Mobile Styles */
+
+}
+/*-----------------------------------------------------------------------------------------------------*/
+
+
+/*------------------------------------------ Welcome Content ------------------------------------------*/
+
+@media (max-width: 768px){ /* Welcome Mobile Styles */
+
+}
+/*-----------------------------------------------------------------------------------------------------*/
+
+
+/*------------------------------------------ Project Content ------------------------------------------*/
+.projectContainer { /* Container for Projects */
+  display: flex;
+  transition: transform 0.5s ease;
+  width: 100%; 
+}
+
+.projectDiv { /* Project Container */
+  min-width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#projectPrevBtn { /* Project Previous Button */
+  left: 10px;
+  z-index: 1000;
+}
+
+#projectNextBtn { /* Project Next Button */
+  right: 10px;
+}
+.projectGithubImg{ /* Github Icon */
+  max-width: 5% !important;
+  min-height: 5% !important;
+}
+
+@media (max-width: 768px){ /* Project Mobile Styles */
+
+  .projectImg{
+    display: none !important;
+  }
+
+}
+/*-----------------------------------------------------------------------------------------------------*/
+
+
+/*----------------------------------------- Experience Content ----------------------------------------*/
+.experienceContainer { /* Container for experiences */
+  display: flex;
+  transition: transform 0.5s ease;
+  width: 100%;
+}
+.experienceDiv { /* Experience Container */
+  min-width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.experienceImg{ /* Company Logo */
+  max-width: 10% !important;
+  max-height: 10% !important;
+}
+
+@media (max-width: 768px){ /* Experience Mobile Styles */
+
+}
+/*-----------------------------------------------------------------------------------------------------*/
+
+
+/*----------------------------------------- Education Content -----------------------------------------*/
+.educationContainer { /* Container for educations */
+  display: flex;
+  transition: transform 0.5s ease;
+  width: 100%;
+}
+
+.educationDiv { /* Education Container */
+  min-width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#educationPrevBtn { /* Education Previous Button */
+  left: 10px;
+  z-index: 1000;
+}
+
+#educationNextBtn{ /* Education Next Button */
+  right: 10px;
+}
+
+.educationImg{ /* School Logo */
+  max-width: 10% !important;
+  max-height: 10% !important;
+}
+
+@media (max-width: 768px){ /* Education Mobile Styles */
+
+}
+/*-----------------------------------------------------------------------------------------------------*/
+
+
+/*------------------------------------------- About Content -------------------------------------------*/
+.textDiv{ /* Container for messages */
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.imageDiv{ /* Container for images*/
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 768px){ /* About Mobile Styles */
+
+}
+
+/*-----------------------------------------------------------------------------------------------------*/
+
+
+/*------------------------------------------ Contact Content ------------------------------------------*/
+#githubButton{ /* GitHub Icon */
+  width: 10%;
+  height: 10%;
+}
+
+#linkedInButton{ /* LinkedIn Icon */ 
+  width: 20% !important;
+  height: 20%;
+}
+
+@media (max-width: 768px){ /* Contact Mobile Styles */
+
+}
+/*-----------------------------------------------------------------------------------------------------*/
+
+
+/*----------------------------------- Languages + Frameworks Content ----------------------------------*/
+.languagesContainer { /* Container for Languages */
+  float: left;
+  width: 48%;
+  padding: 10px;
+  box-sizing: border-box; 
+}
+
+.frameworksContainer { /* Container for Framwworks */
+  float: right;
+  width: 48%; 
+  padding: 10px;
+  box-sizing: border-box; 
+}
+
+#experiencePrevBtn { /* Experience Previous Button */
+  left: 10px;
+  z-index: 1000;
+}
+
+#experienceNextBtn { /* Experience Next Button */
+  right: 10px;
+}
+
+@media (max-width: 768px){ /* Languages + Mobile Mobile Styles */
+
+  .languagesContainer{
     display: none;
   }
-  
-  /* Popup content box */
-  .popup-content {
-    position: relative;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    width: 300px;
-  }
-  
-  /* Close button */
-  .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-  }
-  
-  /* Error message */
-  .error {
-    color: red;
-    margin-top: 10px;
-  }
 
-
-#dashboardLink {
+  .frameworksContainer{
     display: none;
+  }
+
+}
+/*-----------------------------------------------------------------------------------------------------*/
+
+
+
+/*------------------------------------------ Foooter Content ------------------------------------------*/
+footer { /* Footer Container */ 
+  background-color: #dde8e8;
+  text-align: center;
+  padding: 25px;
 }
 
-#githubButton{
-    width: 10%;
-    height: 10%;
+#loginBtn{ /* Admin Login Button */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #0e2e43 !important;
 }
 
-#linkedInButton{
-    width: 20% !important;
-    height: 20%;
+@media (max-width: 768px){ /* Mobile Styles */
+
+  footer{
+    display: none;
+  }
+
+  #loginBtn {
+    display: none;
+  }
+}
+/*-----------------------------------------------------------------------------------------------------*/
+
+/*-------------------------------------------- Login Form ---------------------------------------------*/
+.popup { /* Login Container */
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
 }
 
-
-
-
-/* Footer styling */
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
+.hidden { /* Hidden class for Login Contents */
+  display: none;
 }
 
-@media (max-width: 768px){
-    #loginBtn {
-        display: none;
-    }
-
-    footer{
-        display: none;
-    }
+.popup-content { /* Login Form Container */
+  position: relative;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 300px;
 }
+
+.close { /* Close Form Button */
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+ 
+.error { /* Login Error Message */
+  color: red;
+  margin-top: 10px;
+}
+/*-----------------------------------------------------------------------------------------------------*/
+  
+
+
+
+

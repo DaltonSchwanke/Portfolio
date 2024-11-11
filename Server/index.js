@@ -29,27 +29,15 @@ app.get('/index', (req, res) => {
 
 
 /**
- *  Route for sign in page 
+ *  Route for sign in page, for now it is coded out so that the user can
+ *  not navigate to this page, this ensures that I can go in if need be,
+ *  uncomment this and create a new account if the old one is lost. 
  */
+/** 
 app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, '../Public/Pages', 'signup.html'));
 });
-
-
-/**
- *  Route for login page
- */
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, '../Public/Pages', 'login.html'));
-});
-
-
-/**
- *  Route for dashboard page
- */
-app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, '../Public/Pages', 'dashboard.html'));
-});
+*/
 
 
 /**
@@ -76,6 +64,7 @@ app.post('/login', async (req, res) => {
 /**
  *  Route for signing user up
  */
+/**
 app.post('/signup', async (req, res) => {
     const { user, pass } = req.body;
     if (!user || !pass) {
@@ -94,6 +83,7 @@ app.post('/signup', async (req, res) => {
       res.status(500).json({ message: 'Error saving user data.' });
     }
 });
+*/
 
 
 /**
@@ -109,7 +99,9 @@ app.get('/welcome', async (req, res) => {
     const welcomeData = wjsonData.welcome;
     res.json({
       title: welcomeData.title,
-      message: welcomeData.message
+      message: welcomeData.message,
+      desktopImg: welcome.desktopImg,
+      mobileImg: welcome.mobileImg
     });
   } catch (err) {
     console.error('Error reading data file:', err);
