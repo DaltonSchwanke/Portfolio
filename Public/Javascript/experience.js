@@ -2,7 +2,6 @@ var experienceCount = 0;
 var experienceIndex = 0;
 document.addEventListener('DOMContentLoaded', () => {
     const token = sessionStorage.getItem('token');
-    console.log("experience content token: ", token || "no token");
 
       /**
      *  The fetch method below is used to get the experience data from the

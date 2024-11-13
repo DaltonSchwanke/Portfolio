@@ -2,7 +2,6 @@ var educationCount = 0;
 var educationIndex = 0;
 document.addEventListener('DOMContentLoaded', () => {
     const token = sessionStorage.getItem('token');
-    console.log("education content token: ", token || "no token");
 
     /** 
      *  This section is used to get the data for the education section

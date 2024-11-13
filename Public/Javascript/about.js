@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = sessionStorage.getItem('token');
-    console.log("About content token: ", token || "no token");
 
     /**
      *  Below is code used to get the about section content. It will

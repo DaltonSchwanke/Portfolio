@@ -3,7 +3,6 @@ var projectIndex = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
     const token = sessionStorage.getItem('token');
-    console.log("project content token: ", token || "no token");
 
     /**
      *  The route below is used to get the project data for the page.
@@ -21,11 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
             projectDiv.classList.add("projectDiv");
             const title = document.createElement('h2');
             title.textContent = project.title;
+            const dates = document.createElement('h4');
+            dates.textContent = project.date;
             const thumbnail = document.createElement('img');
             thumbnail.classList.add('projectImg');
             thumbnail.src = project.thumbnail || "/Resources/genericProject.jpg";
-            const dates = document.createElement('h4');
-            dates.textContent = project.date;
             const githublink = document.createElement("a");
             githublink.href = project.github;
             githublink.target = "_blank";
@@ -56,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(project.github){
                 projectDiv.append(githublink);
             }
-            projectDiv.append(title, thumbnail, dates, description);
+            projectDiv.append(title, dates, thumbnail, description);
             projectContainer.append(projectDiv);
         });
     }).catch(err => {

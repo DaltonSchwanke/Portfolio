@@ -9,8 +9,8 @@
   *  to 'login' and set the text content to 'Admin'. 
  */
  document.addEventListener('DOMContentLoaded', () => {
+
     const token = sessionStorage.getItem('token');
-    console.log(token || "no token");
     const loginForm = document.getElementById('loginFormContainer');
 
 
@@ -30,7 +30,6 @@
             loginLink.textContent = "Log Out";
             loginLink.addEventListener('click', () => {
                 event.preventDefault();
-                console.log("with token error");
                 sessionStorage.removeItem('token');
                 window.location.href = '/index';
             })
