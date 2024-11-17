@@ -61,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 editBtn.classList.add('editBtn');
                 editBtn.textContent = "Edit";
                 editBtn.addEventListener('click', () => {
-                    console.log(`Edit Contact Section`);
                     editContact(data, editBtn, contactDiv, contactSection);
                 })
                 contactSection.appendChild(editBtn);

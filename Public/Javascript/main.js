@@ -14,7 +14,6 @@
     const loginForm = document.getElementById('loginFormContainer');
 
 
-
     /**
      *  This code manages the login link in the footer of the 
      *  page, it creates a variable assigned to it and then 
@@ -103,3 +102,4 @@ async function loginUser() {
         window.location.href = '/index';
     }
 }
+

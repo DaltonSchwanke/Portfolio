@@ -10,48 +10,91 @@ document.addEventListener('DOMContentLoaded', () => {
      *  containing the caption for the image.
      */
     fetch('/about').then(response => response.json()).then(data => {
+
         texts = data.texts || [];
         images = data.images || "No Images available";
+
         const aboutSection = document.getElementById("about");
+        const editBtn = document.createElement('button');
+        const textContainer = document.createElement('div');
+        const imgContainer = document.createElement('div');
+
+        textContainer.classList.add("textContainer");
+        imgContainer.classList.add("imgContainer");
+        editBtn.classList.add('editBtn');
+        editBtn.textContent = "Edit";
 
         if(token){
-            const editBtn = document.createElement('button');
-            editBtn.classList.add('editBtn');
-            editBtn.textContent = "Edit";
             editBtn.addEventListener('click', () => {
-                console.log(`Edit About Section`);
+                console.log("this button works");
+                //editAbout(editBtn, aboutSection, textContainer, imgContainer, texts, images);
             })
             aboutSection.appendChild(editBtn);
         }
 
+
         texts.forEach(textItem => {
             const textSection = document.createElement('div');
+            const heading = document.createElement('h3');
+            const content = document.createElement('p');
             textSection.classList.add('textDiv');
             textSection.classList.add('text-item');
-            const heading = document.createElement('h3');
+            heading.classList.add('textHeader');
+            content.classList.add('textContent');
             heading.textContent = textItem.heading;
-            const content = document.createElement('p');
             content.textContent = textItem.content;
             textSection.appendChild(heading);
             textSection.appendChild(content);
-            aboutSection.appendChild(textSection);
+            textContainer.appendChild(textSection);
         });
+        aboutSection.appendChild(textContainer);
+ 
+
         images.forEach(image => {
             const imageSection = document.createElement('div');
+            const img = document.createElement('img');
+            const fallbackText = document.createElement('div');
+
             imageSection.classList.add("imageDiv");
             imageSection.classList.add('image-item');
-            const img = document.createElement('img');
+            img.classList.add("aboutImg");
+            fallbackText.classList.add("fallbackText");
+
             img.alt = image.caption;
             img.src = image.url;
+            fallbackText.textContent = image.caption;
+
+            imgContainer.append(img);
+
             img.onerror = function() {
-                const fallbackText = document.createElement('div');
-                fallbackText.textContent = image.caption;
-                fallbackText.style.color = 'gray';
-                imageSection.appendChild(fallbackText);
+                img.remove();
+                imgContainer.appendChild(fallbackText);
             };
-            aboutSection.appendChild(imageSection);
-        })
+            imgContainer.appendChild(imageSection);
+        });
+        aboutSection.appendChild(imgContainer);
     }).catch(err => {
         console.error("Error fetching about data:", err);
     });
 });
+
+
+// function editAbout(aboutSection, editBtn){
+
+//     const closeEdit = document.createElement('button');
+//     closeEdit.classList.add("closeAboutEdit");
+
+//     closeEdit.textContent = 'x';
+
+//     editBtn.style.display = 'none';
+//     aboutSection.appendChild(closeEdit);
+//     closeEdit.style.display = 'block';
+
+//     closeEdit.addEventListener('click', () => {
+//         closeEdit.style.display = 'none';
+//         editBtn.style.display = 'block';
+//     });
+// } 
+
+
+//textContainer, imgContainer, texts, images

@@ -1,50 +1,58 @@
 /*------------------------------------------ General Content ------------------------------------------*/
-body{ /* Page Body */
-  margin: 0 !important;
-  padding: 0px !important;
-  background-color: #0e2e43 !important;
-}
-
-html { /* Page Frame */
+html { 
   margin: 0 !important;
   padding: 0 !important;
-  color: #0e2e43 !important;
+  background-color: #000000 !important;
+  scroll-behavior: smooth;
 }
 
-#page{ /* Page Container */
-  background-color: #0e2e43 !important;;
+/* Page Body */
+body { 
+  margin: 0 !important;
+  padding: 0 !important;
+  background: radial-gradient(
+    circle at 85% 90%, /* Near the bottom-right corner */
+    #010101 3%,        /* Very subtle shade brighter than pure black */
+    #000000 30%        /* Dominantly black for the majority */
+  );
+  color: #000000; /* Ensure readability */
 }
 
-.container-fluid { /* Used with Page Container */ 
+#page { 
+  background-color: transparent !important;
+}
+
+.container-fluid { 
   display: flex;
   flex-direction: column;
 }
+/* #030624 */
+/* #c99e00 */
 
-.row.flex-grow-1 { /* Sub-Container for Page Container */
+.row.flex-grow-1 { 
   flex: 1;
 }
 
-h1, h2, h3, h4{ /* Headers */
+h1, h2, h3, h4 { 
   color: #dde8e8 !important;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
 }
 
-p{ /* Paragraph */
+p { 
   color: #92bdd6 !important;
   font-size: 1rem;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
 }
 
-a{ /* Links */
-  color:#dde8e8 !important;
+a { 
+  color: #dde8e8 !important;
 }
 
-div{ /* Container */
+div { 
   background-color: transparent;
 }
 
-section { /* Page Section */
+section { 
   padding: 0px !important;
   margin: 0px !important;
   height: 100vh;
@@ -52,19 +60,33 @@ section { /* Page Section */
   margin-bottom: 2rem !important;
 }
 
-.hidden { /* Class for hidding content as default */
+/* Hidden class */
+.hidden { 
   display: none;
 }
 
-
-
-
-.pageSection { /* Content Section Container */
-  position: relative;
-  overflow: hidden;
+/* Apply scroll snapping to the parent container */
+.mainContent {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+  scroll-behavior: smooth;
 }
 
-.carouselButton { /* Carousel Button */
+/* Content Section Container */
+.pageSection { 
+  scroll-snap-align: start;
+  position: relative;
+  overflow: hidden;
+  scroll-snap-align: start;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Carousel Button */
+.carouselButton { 
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -75,21 +97,26 @@ section { /* Page Section */
   z-index: 1;
 }
 
-.editBtn { /* Edit Content Button */
+/* Edit Content Button */
+.editBtn { 
   position: absolute;
-  top: 10px;
-  right: 40px; 
-  color: #007bff; 
+  color: white;
+  background-color: lightgreen;
   cursor: pointer;
-  background: none;
   border: none;
-  position: absolute;
-  padding: 5px;
+  border-radius: 50%;
+  padding: 10px;
   font-size: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.editBtn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(144, 238, 144, 0.6);
+}
 
-.deleteBtn { /* Delete Content Button */
+/* Delete Content Button */
+.deleteBtn { 
   position: absolute;
   top: 10px;
   right: 10px;
@@ -97,50 +124,178 @@ section { /* Page Section */
   cursor: pointer;
   background: none;
   border: none;
-  position: absolute;
   padding: 5px;
   font-size: 16px;
 }
 
-@media (max-width: 768px){ /* General Mobile Styles */
-
-
+@media (max-width: 768px) { 
+  /* General Mobile Styles */
 }
 
 
 /*-----------------------------------------------------------------------------------------------------*/
 
 /*------------------------------------------- Navigation Bar ------------------------------------------*/
-#nav { /* Navigation Container */
+#nav {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: transparent !important;
-  border-radius: 10px;
+  width: auto;
+  height: auto;
   z-index: 500;
+  padding: 10px;
+  background-color: transparent !important;
+  opacity: 0; /* Start off as invisible */
+  animation: fadeIn 5s forwards; /* Apply fade-in animation */
 }
-  
-.navbar { /* List For Navigation Links */
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0; /* Initially invisible */
+  }
+  100% {
+    opacity: 1; /* Fully visible */
+  }
+}
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   list-style-type: none;
-}
-
-.nav-item { /* Navigation Link Container */
-  text-align: left;
-}
-  
-.nav-link { /* Navigation Link */
-  display: block;
-  transition: transform 0.3s ease, margin-left 0.3s ease;
   padding: 0;
+  margin: 0;
 }
 
-@media (max-width: 768px){ /* Navigation Mobile Styles */
+.nav-item {
+  width: 100%;
+  padding-left: 30px;
+}
 
+.nav-link {
+  display: block;
+  width: 100%;
+  font-size: 2.5rem !important;
+  padding: 8px 0;
+  font-weight: bold;
+  color: #1a1a1a !important; /* Slightly brighter than black */
+  text-decoration: none;
+  transition: transform 0.3s ease, margin-left 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+  text-align: left;
+  font-weight: normal; /* Normal weight by default */
+}
+
+/* Active Link Effect */
+.nav-item .active {
+  transform: scale(1.1) translateX(10px); /* Slight move to the right */
+  padding-left: 20px;
+  color: white !important;
+}
+
+@media(max-width: 1200px){
+  .nav-link{
+    font-size: 1.75rem !important;
+  }
+}
+
+/* Mobile View - Top Nav */
+@media (max-width: 768px) {
+  #nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0px !important;
+  }
+
+  .navbar {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav-link {
+    display: none; /* Hide all links by default */
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 0px !important;
+    margin: 0px !important;
+    transition: opacity 0.3s ease;
+  }
+
+  .nav-link.visible {
+    display: block; /* Show only the active link */
+    opacity: 1;
+  }
+
+  .nav-link.hidden {
+    display: none; /* Ensure hidden links don't occupy space */
+    opacity: 0;
+  }
+
+  .nav-link:hover {
+    transform: none;
+  }
+
+  /* Ensure consistent spacing for inactive links */
+  .nav-item .active {
+    opacity: 1; /* Only the active link is fully visible */
+  }
+
+ @media(max-width: 400px){
+    .nav-link{
+      font-size: 1.25rem !important;
+    }
+ }
 }
 /*-----------------------------------------------------------------------------------------------------*/
 
 
 /*------------------------------------------ Welcome Content ------------------------------------------*/
+#welcome{ /* Container for welcome content */
+  padding: 3rem !important;
+}
+
+#editWelcomeButton{ /* Button for editting welcome content */
+  top: 50px;
+  right: 50px;
+}
+
+.editWelcomeForm {
+  background-color: rgba(255, 255, 255, 0.2); /* Light, semi-transparent color */
+  backdrop-filter: blur(10px); /* Adjust the blur intensity as needed */
+  width: 80%; 
+  height: 80%; 
+  margin: 20px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.down-arrow-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  background-color: transparent;
+  border: none;
+  color: red !important;
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.down-arrow-btn:hover {
+  transform: scale(1.1);
+  color: #0056b3;
+}
+
 
 @media (max-width: 768px){ /* Welcome Mobile Styles */
 
@@ -149,29 +304,118 @@ section { /* Page Section */
 
 
 /*------------------------------------------ Project Content ------------------------------------------*/
-.projectContainer { /* Container for Projects */
+/* Project Container (Flexbox layout) */
+.projectContainer {
   display: flex;
   transition: transform 0.5s ease;
   width: 100%; 
 }
 
-.projectDiv { /* Project Container */
+.projectDiv {
   min-width: 100%;
+  display: flex;
   padding: 20px;
   box-sizing: border-box;
+  position: relative;
+  align-items: center; /* Aligns the elements vertically in the container */
 }
 
-#projectPrevBtn { /* Project Previous Button */
-  left: 10px;
+.projectImg {
+  width: 150px; /* Set a fixed size for the image */
+  height: 150px;
+  object-fit: cover; /* Ensures the image covers the space without stretching */
+  margin-right: 20px; /* Space between image and text */
+}
+
+.projectDetails {
+  flex-grow: 1; /* Ensures that the text section takes up available space */
+  display: flex;
+  flex-direction: column; /* Stack title, date, description vertically */
+  justify-content: space-between;
+}
+
+.projectTitle {
+  font-size: 1.5rem;
+  color: #FFFFFF; /* White text for title */
+  margin: 0;
+}
+
+.projectDate {
+  font-size: 1rem;
+  color: #AAAAAA; /* Light gray for date */
+  margin-top: 5px;
+}
+
+.projectDescription {
+  color: #CCCCCC; /* Light gray for description */
+  margin-top: 10px;
+}
+
+.projectGithub {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+.projectGithubImg {
+  width: 20px; /* Adjust GitHub icon size */
+  height: 20px;
+  margin-right: 10px; /* Space between icon and link */
+}
+
+/* Buttons for Edit and Delete */
+.editBtn, .deleteBtn {
+  background-color: #00FFFF;
+  border: 2px solid #00FFFF;
+  color: #000000;
+  padding: 10px 15px;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.editBtn:hover, .deleteBtn:hover {
+  background-color: #FF00FF; /* Neon pink on hover */
+  color: #000000;
+  box-shadow: 0 0 10px #FF00FF;
+}
+
+/* Project Navigation Buttons */
+#projectPrevBtn, #projectNextBtn {
+  background-color: #00FFFF;
+  border: 2px solid #00FFFF;
+  color: #000000;
+  font-size: 1.2rem;
+  padding: 12px 20px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s ease, box-shadow 0.3s ease;
   z-index: 1000;
 }
 
-#projectNextBtn { /* Project Next Button */
+#projectPrevBtn {
+  left: 10px;
+}
+
+#projectNextBtn {
   right: 10px;
 }
-.projectGithubImg{ /* Github Icon */
-  max-width: 5% !important;
-  min-height: 5% !important;
+
+/* Hover Effect */
+#projectPrevBtn:hover, #projectNextBtn:hover {
+  background-color: #FF00FF;
+  color: #000000;
+  box-shadow: 0 0 10px 3px #FF00FF;
+}
+
+/* Active State (when the button is clicked) */
+#projectPrevBtn:active, #projectNextBtn:active {
+  transform: scale(1.1);
+  background-color: #00FF00;
+  color: #000000;
+  box-shadow: 0 0 10px 3px #00FF00;
 }
 
 @media (max-width: 768px){ /* Project Mobile Styles */

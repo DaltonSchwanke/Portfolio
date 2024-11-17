@@ -5,11 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = sessionStorage.getItem('token');
 
     /**
-     *  The route below is used to get the project data for the page.
-     *  Once the data is set back it will create a variable linked to
-     *  the section that the data will go in on the page. From here it
-     *  will iterate over all the projects, creating new elements in the 
-     *  and finally appending it to the section. 
+     * Fetch and display project data
      */
     fetch('/projects').then(response => response.json()).then(data => {
         const projects = data.projects;
@@ -17,59 +13,75 @@ document.addEventListener('DOMContentLoaded', () => {
         projects.forEach(project => {
             projectCount++;
             const projectDiv = document.createElement('div');
-            projectDiv.classList.add("projectDiv");
-            const title = document.createElement('h2');
-            title.textContent = project.title;
-            const dates = document.createElement('h4');
-            dates.textContent = project.date;
+            projectDiv.classList.add('projectDiv');
+        
+            // Create elements for the project
             const thumbnail = document.createElement('img');
             thumbnail.classList.add('projectImg');
             thumbnail.src = project.thumbnail || "/Resources/genericProject.jpg";
+        
+            const title = document.createElement('h2');
+            title.classList.add('projectTitle');
+            title.textContent = project.title;
+        
+            const dates = document.createElement('h4');
+            dates.classList.add('projectDate');
+            dates.textContent = project.date;
+        
+            const description = document.createElement('p');
+            description.classList.add('projectDescription');
+            description.textContent = project.description;
+        
             const githublink = document.createElement("a");
+            githublink.classList.add('projectGithub');
             githublink.href = project.github;
             githublink.target = "_blank";
             const githubImg = document.createElement('img');
             githubImg.classList.add("projectGithubImg");
             githubImg.src = '/Resources/githubLogo.png';
-            const description = document.createElement('p');
-            description.textContent = project.description;
-
-            if(token){
-                var editBtn = document.createElement('button');
-                var deleteBtn = document.createElement('button');
+        
+            // Append elements in the desired order
+            githublink.append(githubImg);
+            if (project.github) {
+                projectDiv.append(githublink);
+            }
+        
+            if (token) {
+                const editBtn = document.createElement('button');
+                const deleteBtn = document.createElement('button');
                 editBtn.classList.add('editBtn');
                 deleteBtn.classList.add('deleteBtn');
                 editBtn.textContent = "Edit";
                 deleteBtn.textContent = "x";
                 editBtn.addEventListener('click', () => {
                     console.log(`Edit Project: ${project.title}`);
-                })
+                });
                 deleteBtn.addEventListener('click', () => {
                     console.log(`Delete Project: ${project.title}`);
                 });
                 projectDiv.appendChild(editBtn);
                 projectDiv.appendChild(deleteBtn);
             }
-
-            githublink.append(githubImg);
-            if(project.github){
-                projectDiv.append(githublink);
-            }
-            projectDiv.append(title, dates, thumbnail, description);
+        
+            // Arrange elements (thumbnail left, text right)
+            const projectDetails = document.createElement('div');
+            projectDetails.classList.add('projectDetails');
+            projectDetails.append(title, dates, description);
+            projectDiv.append(thumbnail, projectDetails);
             projectContainer.append(projectDiv);
         });
+
+        // Ensure the carousel starts in the correct state
+        updateProjectCarousel();
     }).catch(err => {
-    console.error('Error fetching project data:', err);
+        console.error('Error fetching project data:', err);
     });
-    
-    
+
     /**
-     * The code below is used to track the next button for the projects. 
-     * It then sets a variable to the amount of projects are in the 
-     * container. Then it will 
+     * Add click event for the next button
      */
     const projectNextBtn = document.getElementById("projectNextBtn");
-    if(projectNextBtn){
+    if (projectNextBtn) {
         projectNextBtn.addEventListener("click", () => {
             if (projectIndex < projectCount - 1) {
                 projectIndex++;
@@ -77,15 +89,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
-    
-     /**
-     * The code below is used to track the back button for the projects. 
-     * It then sets a variable to the amount of projects are in the 
-     * container. Then it will 
+
+    /**
+     * Add click event for the previous button
      */
     const projectPrevBtn = document.getElementById("projectPrevBtn");
-    if(projectPrevBtn){
+    if (projectPrevBtn) {
         projectPrevBtn.addEventListener("click", () => {
             if (projectIndex > 0) {
                 projectIndex--;
@@ -95,16 +104,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
 /**
- *  The function below is used to update the project carousel
- *  it first selects the section if the id 'projects' then the
- *  style transforms it by setting translating the x value 
- *  using the current index and then multiplying it by 100.
+ * Update the project carousel and control visibility of navigation buttons
  */
 function updateProjectCarousel() {
     console.log(`projectIndex: ${projectIndex}`);
     console.log(`projectCount: ${projectCount}`);
     const projectContainer = document.querySelector("#projects .projectContainer");
+    const projectPrevBtn = document.getElementById("projectPrevBtn");
+    const projectNextBtn = document.getElementById("projectNextBtn");
+
     projectContainer.style.transform = `translateX(-${projectIndex * 100}%)`;
+
+    if (projectPrevBtn) {
+        projectPrevBtn.style.display = projectIndex === 0 ? 'none' : 'block';
+    }
+
+    if (projectNextBtn) {
+        projectNextBtn.style.display = projectIndex === projectCount - 1 ? 'none' : 'block';
+    }
 }

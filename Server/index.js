@@ -100,12 +100,12 @@ app.get('/welcome', async (req, res) => {
     res.json({
       title: welcomeData.title,
       message: welcomeData.message,
-      desktopImg: welcome.desktopImg,
-      mobileImg: welcome.mobileImg
+      desktopImg: welcomeData.desktopImg,
+      mobileImg: welcomeData.mobileImg
     });
   } catch (err) {
     console.error('Error reading data file:', err);
-    res.status(500).json({ message: 'Error fetching welcome data.' });
+    res.status(500).json({ message: '' });
   }
 });
 

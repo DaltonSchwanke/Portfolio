@@ -6,8 +6,8 @@
     }
   ],
   "welcome": {
-    "title": "Welcome to the Site!",
-    "message": "We are glad to have you here. Explore and enjoy the content!",
+    "title": "Hello :)",
+    "message": "Come take a look at my stuff!",
     "desktopImg": "",
     "mobileImg": ""
   },
@@ -30,7 +30,7 @@
     ],
     "images": [
       {
-        "url": "",
+        "url": "/Resources/education.png",
         "caption": "Our Team at Work"
       },
       {

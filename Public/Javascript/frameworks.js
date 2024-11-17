@@ -1,68 +1,68 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = sessionStorage.getItem('token');
+    const languageFrameworks = document.getElementById("languagesFrameworks");
+    if(token){
+        /**
+        *  The route below is used to get the frameworks from the server
+        *  it for now when it returns it will just set it to an object, this code
+        *  will later be used in the functionality in adding a new theme and adding
+        *  new frameworks to the website. 
+        */
+        fetch("/frameworks").then(response => response.json()).then(data => {
+            const frameworks = data.frameworks;
+            const languagesFrameworks = document.getElementById('languagesFrameworks');
+            const frameworksDiv = document.createElement('div');
+            const addFramework = document.createElement('div');
+            const addFrameworkBtn = document.createElement("button");
 
+            frameworksDiv.classList.add('frameworksContainer');
+            addFramework.classList.add("frameworkContainer");
+            addFramework.classList.add("addFramework");
+            addFrameworkBtn.classList.add("addFrameworkBtn");
 
-    /**
-     *  The route below is used to get the frameworks from the server
-     *  it for now when it returns it will just set it to an object, this code
-     *  will later be used in the functionality in adding a new theme and adding
-     *  new frameworks to the website. 
-     */
-      fetch("/frameworks").then(response => response.json()).then(data => {
+            addFrameworkBtn.textContent = "+";
 
-        const frameworks = data.frameworks;
-        const languagesFrameworks = document.getElementById('languagesFrameworks');
-        const frameworksDiv = document.createElement('div');
-        const addFramework = document.createElement('div');
-        const addFrameworkBtn = document.createElement("button");
+            if (token) {
+                frameworks.forEach(framework => {
+                    const frameworkDiv = document.createElement('div');
+                    const frameworkLogo = document.createElement('img');
+                    const frameworkName = document.createElement('h3');
+                    const deleteFrameworkBtn = document.createElement("button");
 
-        frameworksDiv.classList.add('frameworksContainer');
-        addFramework.classList.add("frameworkContainer");
-        addFramework.classList.add("addFramework");
-        addFrameworkBtn.classList.add("addFrameworkBtn");
+                    frameworkDiv.classList.add('frameworkContainer');
+                    frameworkLogo.classList.add('frameworkImg');
+                    frameworkName.classList.add('frameworkName');
+                    deleteFrameworkBtn.classList.add("deleteFrameworkBtn");
 
-        addFrameworkBtn.textContent = "+";
+                    deleteFrameworkBtn.textContent = 'x';
+                    frameworkName.textContent = framework.name || "Oops forgot to put a framework name!";
 
-        if (token) {
-            frameworks.forEach(framework => {
-                const frameworkDiv = document.createElement('div');
-                const frameworkLogo = document.createElement('img');
-                frameworkDiv.classList.add('frameworkContainer');
-                const frameworkName = document.createElement('h3');
-                const deleteFrameworkBtn = document.createElement("button");
+                    frameworkLogo.src = framework.logo || '/Resources/frameworkGeneric.png';
+            
+                    deleteFrameworkBtn.addEventListener("click", () => {
+                        deleteFramework(framework.name, frameworkDiv);
+                    });
 
-                frameworkLogo.classList.add('frameworkImg');
-                frameworkName.classList.add('frameworkName');
-                deleteFrameworkBtn.classList.add("deleteFrameworkBtn");
-
-                deleteFrameworkBtn.textContent = 'x';
-                frameworkName.textContent = framework.name || "Oops forgot to put a framework name!";
-
-                frameworkLogo.src = framework.logo || '/Resources/frameworkGeneric.png';
-        
-                deleteFrameworkBtn.addEventListener("click", () => {
-                    deleteFramework(framework.name, frameworkDiv);
+                    frameworkDiv.appendChild(frameworkLogo);
+                    frameworkDiv.appendChild(frameworkName);
+                    frameworkDiv.appendChild(deleteFrameworkBtn);
+                    frameworksDiv.appendChild(frameworkDiv);
                 });
-
-                frameworkDiv.appendChild(frameworkLogo);
-                frameworkDiv.appendChild(frameworkName);
-                frameworkDiv.appendChild(deleteFrameworkBtn);
-                frameworksDiv.appendChild(frameworkDiv);
-            });
 
     
 
-            addFrameworkBtn.addEventListener("click", () => {
-                addNewFramework(addFramework, addFrameworkBtn);
-            });
+                addFrameworkBtn.addEventListener("click", () => {
+                    addNewFramework(addFramework, addFrameworkBtn);
+                });
 
-            addFramework.appendChild(addFrameworkBtn);
-            frameworksDiv.appendChild(addFramework);
-            languagesFrameworks.appendChild(frameworksDiv);
-        }
-    }).catch(err => {
-        console.error('Error fetching framework data:', err);
-    });
+                addFramework.appendChild(addFrameworkBtn);
+                frameworksDiv.appendChild(addFramework);
+                languagesFrameworks.appendChild(frameworksDiv);
+            }
+        }).catch(err => {
+            console.error('Error fetching framework data:', err);
+        });
+    }
 });
 
 
