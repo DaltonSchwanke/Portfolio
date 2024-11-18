@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         textContainer.classList.add("textContainer");
         imgContainer.classList.add("imgContainer");
-        editBtn.classList.add('editBtn');
+        editBtn.id = "editAboutBtn";
         editBtn.textContent = "Edit";
 
         if(token){
@@ -50,29 +50,30 @@ document.addEventListener('DOMContentLoaded', () => {
         aboutSection.appendChild(textContainer);
  
 
-        images.forEach(image => {
-            const imageSection = document.createElement('div');
-            const img = document.createElement('img');
-            const fallbackText = document.createElement('div');
+        // images.forEach(image => {
+        //     const imageSection = document.createElement('div');
+        //     const img = document.createElement('img');
+        //     const fallbackText = document.createElement('div');
 
-            imageSection.classList.add("imageDiv");
-            imageSection.classList.add('image-item');
-            img.classList.add("aboutImg");
-            fallbackText.classList.add("fallbackText");
+        //     imageSection.classList.add("imageDiv");
+        //     imageSection.classList.add('image-item');
+        //     img.classList.add("aboutImg");
+        //     fallbackText.classList.add("fallbackText");
 
-            img.alt = image.caption;
-            img.src = image.url;
-            fallbackText.textContent = image.caption;
+        //     img.alt = image.caption;
+        //     img.src = image.url;
+        //     fallbackText.textContent = image.caption;
 
-            imgContainer.append(img);
+        //     imgContainer.append(img);
 
-            img.onerror = function() {
-                img.remove();
-                imgContainer.appendChild(fallbackText);
-            };
-            imgContainer.appendChild(imageSection);
-        });
-        aboutSection.appendChild(imgContainer);
+        //     img.onerror = function() {
+        //         img.remove();
+        //         imgContainer.appendChild(fallbackText);
+        //     };
+        //     imgContainer.appendChild(imageSection);
+        // });
+        // aboutSection.appendChild(imgContainer);
+        
     }).catch(err => {
         console.error("Error fetching about data:", err);
     });

@@ -5,6 +5,7 @@
     "bootstrap": "^5.3.3",
     "express": "^4.21.1",
     "fs": "^0.0.1-security",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "typed.js": "^2.1.0"
   }
 }

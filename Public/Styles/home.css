@@ -35,7 +35,8 @@ body {
 
 h1, h2, h3, h4 { 
   color: #dde8e8 !important;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bold;
 }
 
 p { 
@@ -145,8 +146,8 @@ section {
   z-index: 500;
   padding: 10px;
   background-color: transparent !important;
-  opacity: 0; /* Start off as invisible */
-  animation: fadeIn 5s forwards; /* Apply fade-in animation */
+  opacity: 0; 
+  animation: fadeIn 5s forwards;
 }
 
 /* Fade-in animation */
@@ -253,52 +254,147 @@ section {
 
 
 /*------------------------------------------ Welcome Content ------------------------------------------*/
-#welcome{ /* Container for welcome content */
-  padding: 3rem !important;
+#editWelcomeBtn { /* Edit Welcome Button */
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 1rem; 
+  position: absolute; 
+  top: 20px; 
+  right: 20px; 
+  padding: 10px 20px;
+  background-color: rgba(20, 20, 20, 0.5); 
+  color: white; 
+  border: none;
+  border-radius: 10%;
+  cursor: pointer;
+  z-index: 10;
 }
-
-#editWelcomeButton{ /* Button for editting welcome content */
-  top: 50px;
-  right: 50px;
+#editWelcomeBtn:hover {
+  background-color: rgba(40, 40, 40, 0.5);
 }
 
 .editWelcomeForm {
-  background-color: rgba(255, 255, 255, 0.2); /* Light, semi-transparent color */
-  backdrop-filter: blur(10px); /* Adjust the blur intensity as needed */
-  width: 80%; 
-  height: 80%; 
-  margin: 20px auto;
-  padding: 20px;
+  width: 50%;
+  height: auto;
+  padding: 3rem;
+  background-color:rgba(1, 1, 1, 0.7);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  position: relative;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.down-arrow-btn {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+#editWelcomePrompt{
+  color: white;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 2rem;
+  padding: 10px 15px;
+}
+
+
+#editWelcomeTitle{
+  padding: 10px 15px;
+  width: 50%;
   background-color: transparent;
-  border: none;
-  color: red !important;
+  border: rgba(10, 10, 10, 0.9);
+  box-shadow: 0px 0px 5px black;
+  color: white;
+  font-size: 1.5rem;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#editWelcomeMessage{
+  padding: 10px 15px;
+  width: 100%;
+  background-color: transparent;
+  border: rgba(10, 10, 10, 0.9);
+  box-shadow: 0px 0px 5px black;
+  color: white;
+  font-size: 1.2rem;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#desktopImgLabel{
+  font-size: 1.2rem;
+}
+
+#desktopImgInput{
+  width: 25%;
+  height: 25%;
+} 
+
+#mobileImgLabel{
+  font-size: 1.2rem;
+}
+
+#mobileImgInput{
+  width: 25%;
+  height: 25%;
+}
+
+#saveWelcomeContent{
+  top: 5px;
+  right: 10px;
+}
+
+#closeWelcomeForm{
+    top: 10px;
+    right: 20px;
+}
+
+
+
+.editWelcomeForm h2, 
+.editWelcomeForm label {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.editWelcomeForm input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.desktopImgInput,
+.mobileImgInput {
   cursor: pointer;
-  z-index: 1000;
-  transition: transform 0.3s ease, color 0.3s ease;
+  background-color: #f0f0f0;
 }
 
-.down-arrow-btn:hover {
-  transform: scale(1.1);
-  color: #0056b3;
+.editWelcomeForm .editBtn,
+.editWelcomeForm .closeBtn {
+  position: absolute;
+  top: 10px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
+.editWelcomeForm .editBtn {
+  right: 50px;
+  background-color: lightgreen;
+}
 
-@media (max-width: 768px){ /* Welcome Mobile Styles */
+.editWelcomeForm .closeBtn {
+  right: 10px;
+  background-color: crimson;
+}
 
+.editWelcomeForm .closeBtn:hover {
+  background-color: darkred;
+}
+
+.editWelcomeForm .editBtn:hover {
+  background-color: green;
 }
 /*-----------------------------------------------------------------------------------------------------*/
 
@@ -459,50 +555,57 @@ section {
 }
 /*-----------------------------------------------------------------------------------------------------*/
 
-
-/*----------------------------------------- Education Content -----------------------------------------*/
-.educationContainer { /* Container for educations */
-  display: flex;
-  transition: transform 0.5s ease;
-  width: 100%;
-}
-
-.educationDiv { /* Education Container */
-  min-width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-#educationPrevBtn { /* Education Previous Button */
-  left: 10px;
-  z-index: 1000;
-}
-
-#educationNextBtn{ /* Education Next Button */
-  right: 10px;
-}
-
-.educationImg{ /* School Logo */
-  max-width: 10% !important;
-  max-height: 10% !important;
-}
-
-@media (max-width: 768px){ /* Education Mobile Styles */
-
-}
-/*-----------------------------------------------------------------------------------------------------*/
-
-
 /*------------------------------------------- About Content -------------------------------------------*/
-.textDiv{ /* Container for messages */
-  width: 100% !important;
-  height: 100% !important;
+#about{
+  scroll-snap-align: start;
+  position: relative;
+  overflow: hidden;
+  scroll-snap-align: start;
+  height: 100vh;
+  display: flex;
 }
 
-.imageDiv{ /* Container for images*/
-  width: 100% !important;
-  height: 100% !important;
+.textDiv{
+  flex: 1 1 calc(33.333% - 20px); /* Set card width to 1/3 of the container with spacing */
+  max-width: calc(33.333% - 20px); /* Ensure max width doesn't exceed 1/3 of the container */
+  height: 100vh !important;
+  box-sizing: border-box; /* Include padding and border in size calculations */
+  margin: 10px; /* Spacing between cards */
+  padding: 20px; /* Inner spacing for card content */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for cards */
+  text-align: left; /* Align card content to the left */
 }
+
+.textHeader{
+  color: white;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.textContent{
+  font-size: 1.2rem;
+}
+
+
+#editAboutBtn { /* Edit Welcome Button */
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 1rem; 
+  position: absolute; 
+  top: 20px; 
+  right: 20px; 
+  padding: 10px 20px;
+  background-color: rgba(20, 20, 20, 0.5); 
+  color: white; 
+  border: none;
+  border-radius: 10%;
+  cursor: pointer;
+  z-index: 10;
+}
+#editAboutBtn:hover {
+  background-color: rgba(40, 40, 40, 0.5);
+} 
 
 @media (max-width: 768px){ /* About Mobile Styles */
 
@@ -670,32 +773,70 @@ footer { /* Footer Container */
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.hidden { /* Hidden class for Login Contents */
-  display: none;
+  background: rgba(0, 0, 0, 0.5); /* Dark transparent background */
+  z-index: 1000; /* Ensure it appears on top */
 }
 
 .popup-content { /* Login Form Container */
   position: relative;
-  background: white;
-  padding: 20px;
+  background: red; /* Temporary red background for testing */
+  padding: 30px 20px;
   border-radius: 8px;
-  text-align: center;
-  width: 300px;
+  width: 350px;
+  text-align: left; /* Align content to the left */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow for depth */
 }
 
-.close { /* Close Form Button */
+#closeLogIn { /* Close Button */
   position: absolute;
   top: 10px;
   right: 10px;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
   cursor: pointer;
 }
- 
-.error { /* Login Error Message */
-  color: red;
-  margin-top: 10px;
+
+#loginHeader { /* Login Title */
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+#loginForm { /* Login Form */
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Add spacing between inputs */
+}
+
+#loginForm label { /* Label for Inputs */
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+#loginForm input { /* Input Fields */
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#loginForm button { /* Submit Button */
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#loginForm button:hover { /* Hover Effect for Submit Button */
+  background-color: #555;
 }
 /*-----------------------------------------------------------------------------------------------------*/
   

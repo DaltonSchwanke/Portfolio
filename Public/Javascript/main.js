@@ -37,7 +37,8 @@
             loginLink.addEventListener('click', () => {
                 event.preventDefault();
                 loginLink.textContent = "Admin";
-                loginForm.style.display = "block";
+                loginForm.classList.remove('hidden');
+                loginForm.classList.add("popup");
             }); 
         }
     }
@@ -52,7 +53,8 @@
 function closeLogin(){
     const loginForm = document.getElementById('loginFormContainer');
     if(loginForm){
-        loginForm.style.display = "none";
+        loginForm.classList.remove('popup');
+        loginForm.classList.add("hidden");
     }
 }
 
@@ -93,7 +95,8 @@ async function loginUser() {
         setTimeout(() => {
             const loginForm = document.getElementById('loginFormContainer');
             if(loginForm){
-                loginForm.style.display = "none";
+                loginForm.classList.remove('popup');
+                loginForm.classList.add("hidden");
             }  
             window.location.href = '/'; 
         },1000);

@@ -1,124 +1,142 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = sessionStorage.getItem('token');
 
+    fetch('/welcome')
+        .then(response => response.json())
+        .then(data => {
+            const title = data.title || "Dalton's Portfolio";
+            const message = data.message || "It looks like we're experiencing some technical difficulties at the moment";
+            const desktopImg = data.desktopImg || "/Resources/genericExperience.png";
+            const mobileImg = data.mobileImg || "/Resources/genericProject.jpg";
 
-     /**
-     *  The request below gets the welcome message for the welcome 
-     *  section. It will get back the title and welcome message. From 
-     *  here it will check if the section is shown, if so it will create
-     *  new elements for each element before appending it to the welcome
-     *  section. 
-     */
-    fetch('/welcome').then(response => response.json()).then(data => {
+            const welcomeSection = document.getElementById('welcome');
 
-        title = data.title || "Dalton's Portfolio";
-        message = data.message || "It looks like were experience some technical difficulties at the moment";
-        desktopImg = data.desktopImg || "/Resources/genericExperience.png";
-        mobileImg = data.mobileImg || "/Resources/genericProject.jpg";
+            if (welcomeSection) {
+                welcomeSection.innerHTML = '';
 
-        const welcomeSection = document.getElementById('welcome');
+                const welcomeInnerDiv = document.createElement("div");
+                const titleDiv = document.createElement('div');
+                const titleElement = document.createElement('h2');
+                const messageDiv = document.createElement('div');
+                const messageElement = document.createElement('p');
+                const welcomeImgDiv = document.createElement('div');
+                const desktopImgElement = document.createElement('img');
+                const mobileImgElement = document.createElement("img");
 
-        if(welcomeSection){
-            welcomeSection.innerHTML = '';
+                titleDiv.classList.add("titleDiv");
+                messageDiv.classList.add("messageDiv");
+                welcomeImgDiv.classList.add("welcomeImgDiv");
+                desktopImgElement.classList.add("desktopImg");
+                mobileImgElement.classList.add("mobileImg");
 
-            const welcomeInnerDiv = document.createElement("div");
-            const titleDiv = document.createElement('div');
-            const titleElement = document.createElement('h2');
-            const messageDiv = document.createElement('div');
-            const messageElement = document.createElement('p');
-            const welcomeImgDiv = document.createElement('div');
-            const desktopImgElement = document.createElement('img');
-            const mobileImgElement = document.createElement("img");
+                // IDs for Typed.js selectors
+                titleElement.id = "welcomeTitle";
+                messageElement.id = "welcomeMessage";
 
+                // Initially empty for Typed.js animation
+                titleElement.textContent = '';
+                messageElement.textContent = '';
 
-            titleDiv.classList.add("titleDiv");
-            messageDiv.classList.add("messageDiv");
-            welcomeImgDiv.classList.add("welcomeImgDiv");
-            desktopImgElement.classList.add("desktopImg");
-            mobileImgElement.classList.add("mobileImg");
-    
-            titleElement.id = "welcomeTitle";
+                desktopImgElement.src = desktopImg;
+                mobileImgElement.src = mobileImg;
 
-            titleElement.textContent = title;
-            messageElement.textContent = message;
+                titleDiv.appendChild(titleElement);
+                messageDiv.appendChild(messageElement);
 
-            desktopImgElement.src = desktopImg;
-            mobileImgElement.src = mobileImg;
+                if (token) {
+                    const editBtn = document.createElement('button');
+                    editBtn.id = "editWelcomeBtn";
+                    editBtn.textContent = "Edit";
+                    editBtn.addEventListener('click', () => {
+                        editWelcome(data, welcomeInnerDiv, welcomeSection, editBtn);
+                    });
+                    welcomeSection.appendChild(editBtn);
+                }
+                if (window.innerWidth >= 768) {
+                    welcomeImgDiv.appendChild(desktopImgElement);
+                } else {
+                    welcomeImgDiv.appendChild(mobileImgElement);
+                }
+                welcomeInnerDiv.appendChild(titleDiv);
+                welcomeInnerDiv.appendChild(messageDiv);
+                welcomeInnerDiv.appendChild(welcomeImgDiv);
+                welcomeSection.appendChild(welcomeInnerDiv);
 
-            titleDiv.appendChild(titleElement);
-            messageDiv.appendChild(messageElement);
-    
-            if(token){
-                const editBtn = document.createElement('button');
-                editBtn.classList.add('editBtn');
-                editBtn.textContent = "Edit";
-                editBtn.addEventListener('click', () => {
-                    editWelcome(data, welcomeInnerDiv, welcomeSection, editBtn);
+                // Initialize Typed.js for the title
+                new Typed('#welcomeTitle', {
+                    strings: [title],
+                    typeSpeed: 100,
+                    backSpeed: 50,
+                    loop: false,
+                    showCursor: false, // Disable blinking cursor for the title
+                    onComplete: () => {
+                        // Start the message animation after the title completes
+                        new Typed('#welcomeMessage', {
+                            strings: [message],
+                            typeSpeed: 50,
+                            backSpeed: 25,
+                            loop: false,
+                            showCursor: false, // Disable blinking cursor for the message
+                        });
+                    },
                 });
-                welcomeSection.appendChild(editBtn);
             }
-            if(window.innerWidth >= 768){
-                welcomeImgDiv.appendChild(desktopImgElement);
-            }else{
-                welcomeImgDiv.appendChild(mobileImgElement);
-            }
-            welcomeInnerDiv.appendChild(titleDiv);
-            welcomeInnerDiv.appendChild(messageDiv);
-            welcomeInnerDiv.appendChild(welcomeImgDiv);
-            welcomeSection.appendChild(welcomeInnerDiv);
-        }
-    }).catch(err => {
-        console.error('Error fetching welcome data:', err);
-    });
-
+        })
+        .catch(err => {
+            console.error('Error fetching welcome data:', err);
+        });
 });
 
 
-function editWelcome(data, welcomeInnerDiv, welcomeSection, editBtn){
-
+function editWelcome(data, welcomeInnerDiv, welcomeSection, editBtn) {
     const editWelcomeForm = document.createElement('form');
-    const titleLabel = document.createElement('h2');
-    const titleInput = document.createElement('input');
-    const messageLabel = document.createElement("label");
-    const messageInput = document.createElement('input');
-    const desktopImgLabel = document.createElement('label');
-    const desktopImgInput = document.createElement("input");
-    const mobileImgLabel = document.createElement("label");
-    const mobileImgInput = document.createElement("input");
-    const submitBtn = document.createElement('button');
-    const closeBtn = document.createElement("button");
-
     editWelcomeForm.classList.add("editWelcomeForm");
-    titleLabel.classList.add("editTitleLabel");
-    titleInput.classList.add("editTitleInput");
-    messageLabel.classList.add("editMessageLabel");
-    messageInput.classList.add("editMessageInput");
-    desktopImgLabel.classList.add("desktopImgLabel");
-    desktopImgInput.classList.add("desktopImgInput");
-    mobileImgLabel.classList.add("mobileImgLabel");
-    mobileImgInput.classList.add("mobileImgInput");
-    submitBtn.classList.add("editBtn");
-    closeBtn.classList.add('closeBtn');
 
-    titleLabel.textContent = "Title";
-    messageLabel.textContent = "Message";
-    desktopImgLabel.textContent = "Desktop Image";
-    mobileImgLabel.textContent = "Mobile Image";
-    submitBtn.textContent = '✔️'
-    closeBtn.textContent = 'x';
+    // Title
+    const editPrompt = document.createElement('h2');
+    editPrompt.id = "editWelcomePrompt";
+    editPrompt.textContent = "Edit Welcome Content";
 
+    // Title Input 
+    const titleInput = document.createElement('input');
+    titleInput.id = "editWelcomeTitle";
     titleInput.value = data.title;
-    messageInput.textContent = data.message;
+    titleInput.required = true;
 
+    // Message
+    const messageInput = document.createElement('input');
+    messageInput.id = "editWelcomeMessage";
+    messageInput.value = data.message;
+    messageInput.required = true;
+
+    // Desktop Image
+    const desktopImgLabel = document.createElement('label');
+    desktopImgLabel.id = "desktopImgLabel";
+    desktopImgLabel.textContent = "Desktop Image";
+    const desktopImgInput = document.createElement("input");
+    desktopImgInput.id = "desktopImgInput";
     desktopImgInput.type = "file";
+
+    // Mobile Image
+    const mobileImgLabel = document.createElement("label");
+    mobileImgLabel.id = "mobileImgLabel";
+    mobileImgLabel.textContent = "Mobile Image";
+    const mobileImgInput = document.createElement("input");
+    mobileImgInput.id = "mobileImgInput";
     mobileImgInput.type = "file";
 
-    editBtn.style.display = 'none';
-    welcomeInnerDiv.style.display = 'none';
+    // Buttons
+    const submitBtn = document.createElement('button');
+    submitBtn.id = 'saveWelcomeContent';
+    submitBtn.textContent = "Save";
+    submitBtn.formAction = "submit";
+    const closeBtn = document.createElement("button");
+    closeBtn.id = 'closeWelcomeForm';
+    closeBtn.textContent = "X";
 
-    editWelcomeForm.appendChild(titleLabel);
+    // Add inputs and buttons to form
+    editWelcomeForm.appendChild(editPrompt);
     editWelcomeForm.appendChild(titleInput);
-    editWelcomeForm.appendChild(messageLabel);
     editWelcomeForm.appendChild(messageInput);
     editWelcomeForm.appendChild(desktopImgLabel);
     editWelcomeForm.appendChild(desktopImgInput);
@@ -126,30 +144,35 @@ function editWelcome(data, welcomeInnerDiv, welcomeSection, editBtn){
     editWelcomeForm.appendChild(mobileImgInput);
     editWelcomeForm.appendChild(submitBtn);
     editWelcomeForm.appendChild(closeBtn);
+
+    // Hide original welcome content and show the form
+    editBtn.style.display = 'none';
+    welcomeInnerDiv.style.display = 'none';
     welcomeSection.appendChild(editWelcomeForm);
 
-    submitBtn.addEventListener("click", () => {
+    // Save functionality
+    submitBtn.addEventListener("click", (event) => {
         event.preventDefault();
         const newTitle = titleInput.value;
         const newMessage = messageInput.value;
         const newDesktopImg = desktopImgInput.value;
         const newMobileImg = mobileImgInput.value;
-        updateWelcome(newTitle, newMessage, newDesktopImg, newMobileImg); 
 
-        editWelcomeForm.style.display = 'none';
+        updateWelcome(newTitle, newMessage, newDesktopImg, newMobileImg);
+
+        editWelcomeForm.remove();
         welcomeInnerDiv.style.display = 'block';
         editBtn.style.display = 'block';
     });
 
-
-    closeBtn.addEventListener('click', () => {
+    // Close functionality
+    closeBtn.addEventListener('click', (event) => {
         event.preventDefault();
-
-        editWelcomeForm.style.display = 'none';
+        editWelcomeForm.remove();
         welcomeInnerDiv.style.display = 'block';
         editBtn.style.display = 'block';
     });
-};
+}
 
 
 
