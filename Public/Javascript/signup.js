@@ -77,8 +77,6 @@ if(signupBtn){
         event.preventDefault();
         const signupUsername = document.getElementById('usernameSU').value;
         const signupPass = document.getElementById('passwordSU').value;
-        console.log(signupUsername);
-        console.log(signupPass);
         signupUser(signupUsername, signupPass);
     });
 }
@@ -92,7 +90,6 @@ if(signupBtn){
  * @param {*} pass 
  */
 async function signupUser(user, pass) {
-    console.log(JSON.stringify({ user, pass }));
     try {
         const response = await fetch('/signup', {
         method: 'POST',
@@ -103,13 +100,9 @@ async function signupUser(user, pass) {
         });
         const result = await response.json();
         if (response.ok) {
-            console.log('Signup successful!');
             window.location.href = '/login';
-        } else {
-            console.log(result.message || "Signup failed. Please try again.");
         }
       } catch (error) {
             console.error("Error during signup:", error);
-            console.log("An error occurred during signup.");
       }
  }

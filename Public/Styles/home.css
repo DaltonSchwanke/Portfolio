@@ -180,7 +180,7 @@ section {
   font-size: 2.5rem !important;
   padding: 8px 0;
   font-weight: bold;
-  color: #1a1a1a !important; /* Slightly brighter than black */
+  color: #525252 !important; /* Slightly brighter than black */
   text-decoration: none;
   transition: transform 0.3s ease, margin-left 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
   text-align: left;
@@ -270,6 +270,7 @@ section {
 }
 #editWelcomeBtn:hover {
   background-color: rgba(40, 40, 40, 0.5);
+  box-shadow: 0px 0px 8px rgba(150, 150, 150, 0.3);
 }
 
 .editWelcomeForm {
@@ -293,26 +294,48 @@ section {
 }
 
 
-#editWelcomeTitle{
+#editWelcomeTitle {
   padding: 10px 15px;
   width: 50%;
   background-color: transparent;
-  border: rgba(10, 10, 10, 0.9);
+  border: 1px solid rgba(10, 10, 10, 0.9); /* Ensure the border is fully defined */
   box-shadow: 0px 0px 5px black;
   color: white;
   font-size: 1.5rem;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  outline: none; /* Remove default focus outline for consistency */
 }
 
-#editWelcomeMessage{
+#editWelcomeTitle:focus {
+  background-color: transparent;
+  border: 1px solid rgba(10, 10, 10, 0.9); /* Same as the non-focused state */
+  box-shadow: 0px 0px 5px black; /* Optional, to keep consistency */
+  color: white;
+  font-size: 1.5rem;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  outline: none; /* Ensure no focus outline is added */
+}
+
+#editWelcomeMessage {
   padding: 10px 15px;
   width: 100%;
   background-color: transparent;
-  border: rgba(10, 10, 10, 0.9);
+  border: 1px solid rgba(10, 10, 10, 0.9); 
   box-shadow: 0px 0px 5px black;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  outline: none;
+}
+
+#editWelcomeMessage:focus {
+  background-color: transparent;
+  border: 1px solid rgba(10, 10, 10, 0.9);
+  box-shadow: 0px 0px 5px black;
+  color: white;
+  font-size: 1.5rem;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  outline: none; 
 }
 
 #desktopImgLabel{
@@ -379,22 +402,59 @@ section {
   border-radius: 4px;
 }
 
-.editWelcomeForm .editBtn {
-  right: 50px;
-  background-color: lightgreen;
+#saveWelcomeContent {
+  position: absolute;
+  top: 10px;
+  right: 60px; 
+  margin: 1rem;
+  width: 10%;
+  background-color: transparent; 
+  border: 2px solid rgba(0, 255, 0, 0.5);
+  border-radius: 10%;
+  color: rgba(0, 255, 0, 0.8); 
+  padding: auto;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+  line-height: 2rem;
+} 
+/* Save welcome Form button */
+#saveWelcomeContent:hover {
+  box-shadow: 0px 0px 8px rgba(0, 128, 0, 0.8);
+  background-color: rgba(0, 128, 0, 0.4);
 }
 
-.editWelcomeForm .closeBtn {
+/* Close Welcome Form Button */
+#closeWelcomeForm {
+  position: absolute;
+  top: 10px;
   right: 10px;
-  background-color: crimson;
+  margin: 1rem;
+  width: 5%;
+  background-color: transparent; 
+  border: 2px solid rgba(255, 0, 0.5);
+  border-radius: 10%;
+  color: rgba(255, 0, 0, 0.8); 
+  padding: auto;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+  line-height: 2rem;
+}
+#closeWelcomeForm:hover {
+  box-shadow: 0px 0px 8px rgba(128, 0, 0, 0.8);
+  background-color: rgba(128, 0, 0, 0.4);
 }
 
-.editWelcomeForm .closeBtn:hover {
-  background-color: darkred;
-}
-
-.editWelcomeForm .editBtn:hover {
-  background-color: green;
+@media(max-width: 768px){
+  #welcome{
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
 }
 /*-----------------------------------------------------------------------------------------------------*/
 
@@ -409,6 +469,7 @@ section {
 
 .projectDiv {
   min-width: 100%;
+  height: 100vh;
   display: flex;
   padding: 20px;
   box-sizing: border-box;
@@ -461,34 +522,58 @@ section {
 }
 
 /* Buttons for Edit and Delete */
-.editBtn, .deleteBtn {
-  background-color: #00FFFF;
-  border: 2px solid #00FFFF;
-  color: #000000;
-  padding: 10px 15px;
-  margin-top: 10px;
-  border-radius: 5px;
+.editProjectBtn{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 1rem; 
+  position: absolute; 
+  top: 20px; 
+  right: 80px; 
+  padding: 10px 20px;
+  background-color: rgba(20, 20, 20, 0.5); 
+  color: white; 
+  border: none;
+  border-radius: 10%;
   cursor: pointer;
+  z-index: 10;
 }
 
-.editBtn:hover, .deleteBtn:hover {
-  background-color: #FF00FF; /* Neon pink on hover */
-  color: #000000;
-  box-shadow: 0 0 10px #FF00FF;
+.editProjectBtn:hover{
+  background-color: rgba(40, 40, 40, 0.5);
+  box-shadow: 0px 0px 8px rgba(150, 150, 150, 0.3);
+}
+
+.deleteProjectBtn {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 1rem; 
+  position: absolute; 
+  top: 20px; 
+  right: 20px; 
+  padding: 10px 20px;
+  background-color: rgba(250, 30, 30, 0.3); 
+  color: white; 
+  border: none;
+  border-radius: 10%;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.deleteProjectBtn:hover {
+  background-color: rgba(250, 30, 30, 0.4);
+  box-shadow: 0px 0px 8px rgba(250, 30, 30, 0.4);
 }
 
 /* Project Navigation Buttons */
 #projectPrevBtn, #projectNextBtn {
-  background-color: #00FFFF;
-  border: 2px solid #00FFFF;
-  color: #000000;
+  background-color: inherit;
+  color: white;
   font-size: 1.2rem;
-  padding: 12px 20px;
   margin: 10px;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s, transform 0.3s ease, box-shadow 0.3s ease;
+  transition: font-size 0.2s ease, background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Include font-size transition */
   z-index: 1000;
+}
+#projectPrevBtn:hover, #projectNextBtn:hover {
+  font-size: 2rem;
 }
 
 #projectPrevBtn {
@@ -499,24 +584,17 @@ section {
   right: 10px;
 }
 
-/* Hover Effect */
-#projectPrevBtn:hover, #projectNextBtn:hover {
-  background-color: #FF00FF;
-  color: #000000;
-  box-shadow: 0 0 10px 3px #FF00FF;
-}
-
-/* Active State (when the button is clicked) */
-#projectPrevBtn:active, #projectNextBtn:active {
-  transform: scale(1.1);
-  background-color: #00FF00;
-  color: #000000;
-  box-shadow: 0 0 10px 3px #00FF00;
-}
-
 @media (max-width: 768px){ /* Project Mobile Styles */
 
   .projectImg{
+    display: none !important;
+  }
+
+  #projectPrevBtn{
+    display: none !important;
+  }
+
+  #projectNextBtn{
     display: none !important;
   }
 
@@ -533,21 +611,92 @@ section {
 .experienceDiv { /* Experience Container */
   min-width: 100%;
   padding: 20px;
+  height: 100vh;
   box-sizing: border-box;
+  position: relative;
 }
 
-#experiencePrevBtn { /* Experience Previous Button */
-  left: 10px;
+#experienceNextBtn{
+  right: 10px;
+  background-color: inherit;
+  color: white;
+  font-size: 1.2rem;
+  padding: 12px 20px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s ease, box-shadow 0.3s ease;
   z-index: 1000;
 }
+#experienceNextBtn:hover{
+  background-color: white;
+  color: #000000;
+  box-shadow: 0 0 10px 3px white;
+}
 
-#experienceNextBtn { /* Experience Next Button */
-  right: 10px;
+#experiencePrevBtn{
+  left: 10px;
+  z-index: 1000;
+  background-color: inherit;
+  color: white;
+  font-size: 1.2rem;
+  padding: 12px 20px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 1000;
+}
+#experiencePrevBtn:hover{
+  background-color: white;
+  color: #000000;
+  box-shadow: 0 0 10px 3px white;
 }
 
 .experienceImg{ /* Company Logo */
   max-width: 10% !important;
   max-height: 10% !important;
+}
+
+
+.editExperienceBtn{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 1rem; 
+  position: absolute; 
+  top: 20px; 
+  right: 80px; 
+  padding: 10px 20px;
+  background-color: rgba(20, 20, 20, 0.5); 
+  color: white; 
+  border: none;
+  border-radius: 10%;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.editExperienceBtn:hover{
+  background-color: rgba(40, 40, 40, 0.5);
+  box-shadow: 0px 0px 8px rgba(150, 150, 150, 0.3);
+}
+
+.deleteExperienceBtn {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 1rem; 
+  position: absolute; 
+  top: 20px; 
+  right: 20px; 
+  padding: 10px 20px;
+  background-color: rgba(250, 30, 30, 0.3); 
+  color: white; 
+  border: none;
+  border-radius: 10%;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.deleteExperienceBtn:hover {
+  background-color: rgba(250, 30, 30, 0.4);
+  box-shadow: 0px 0px 8px rgba(250, 30, 30, 0.4);
 }
 
 @media (max-width: 768px){ /* Experience Mobile Styles */
@@ -556,27 +705,29 @@ section {
 /*-----------------------------------------------------------------------------------------------------*/
 
 /*------------------------------------------- About Content -------------------------------------------*/
-#about{
+#about {
   scroll-snap-align: start;
   position: relative;
   overflow: hidden;
-  scroll-snap-align: start;
-  height: 100vh;
-  display: flex;
+  height: 100vh; /* Full height of the viewport */
+  display: flex; /* Flexbox layout to align children side by side */
+  flex-direction: row; /* Ensures items are in a row (default, but added for clarity) */
+  padding: 0px !important;
 }
 
-.textDiv{
-  flex: 1 1 calc(33.333% - 20px); /* Set card width to 1/3 of the container with spacing */
-  max-width: calc(33.333% - 20px); /* Ensure max width doesn't exceed 1/3 of the container */
-  height: 100vh !important;
-  box-sizing: border-box; /* Include padding and border in size calculations */
-  margin: 10px; /* Spacing between cards */
-  padding: 20px; /* Inner spacing for card content */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for cards */
-  text-align: left; /* Align card content to the left */
+.textDiv {
+  position: relative;
+  padding: 20px;
+  border: none;
+  border-radius: 8px;
+  max-width: 400px;
+  margin: 20px auto;
+  background-color:rgba(1, 1, 1, 0.7);;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+
+/*
 .textHeader{
   color: white;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -587,34 +738,146 @@ section {
 .textContent{
   font-size: 1.2rem;
 }
+*/
 
 
-#editAboutBtn { /* Edit Welcome Button */
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 1rem; 
-  position: absolute; 
-  top: 20px; 
-  right: 20px; 
-  padding: 10px 20px;
-  background-color: rgba(20, 20, 20, 0.5); 
-  color: white; 
-  border: none;
-  border-radius: 10%;
-  cursor: pointer;
-  z-index: 10;
+/* Prompt (Edit title) */
+.editAboutFormTitle {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
 }
-#editAboutBtn:hover {
-  background-color: rgba(40, 40, 40, 0.5);
-} 
+
+.editAboutSection {
+  background-color: white;
+  color: black;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 1rem;
+  border-radius: 10%;
+  padding: 1% 2%;
+  border: none;
+  position: absolute; /* Absolute positioning relative to the parent */
+  right: 2%; /* Distance from the right edge of the parent */
+  top: 4%; /* Distance from the top edge of the parent */
+  cursor: pointer; /* Add a pointer cursor for better UX */
+}
+
+.editAboutSection:hover {
+  box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Close Button */
+button.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button.closeButton:hover {
+  color: #ff0000;
+}
+
+/* Title Input */
+.editTitleInput {
+  display: block;
+  width: 100%;
+  margin: 40px 0 10px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Description Input */
+.editDescInput {
+  display: block;
+  width: 100%;
+  height: 100px;
+  margin: 10px 0 20px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+/* Save and Delete Buttons */
+button.submitButton,
+button.deleteButton {
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Save Button */
+button.submitButton {
+  background-color: #4caf50;
+  color: white;
+  margin-right: 10px;
+}
+
+button.submitButton:hover {
+  background-color: #45a049;
+}
+
+/* Delete Button */
+button.deleteButton {
+  background-color: #f44336;
+  color: white;
+}
+
+button.deleteButton:hover {
+  background-color: #e53935;
+}
+
+/* Inline Save and Delete Buttons */
+button.submitButton,
+button.deleteButton {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+
+
 
 @media (max-width: 768px){ /* About Mobile Styles */
 
 }
 
+
 /*-----------------------------------------------------------------------------------------------------*/
 
 
 /*------------------------------------------ Contact Content ------------------------------------------*/
+#contact{
+  height: 50vh !important;
+  width: 100% !important;
+}
+
+#contactContainer{
+  width: 100%;
+  height: 60%;
+  background-color: red;
+}
+
+#footer{
+  width: 100%;
+  height: 40%;
+  background-color: blue;
+}
+
 #githubButton{ /* GitHub Icon */
   width: 10%;
   height: 10%;
@@ -741,6 +1004,7 @@ footer { /* Footer Container */
   background-color: #dde8e8;
   text-align: center;
   padding: 25px;
+  width: 100%;
 }
 
 #loginBtn{ /* Admin Login Button */
@@ -779,7 +1043,7 @@ footer { /* Footer Container */
 
 .popup-content { /* Login Form Container */
   position: relative;
-  background: red; /* Temporary red background for testing */
+  background: inherit; /* Temporary red background for testing */
   padding: 30px 20px;
   border-radius: 8px;
   width: 350px;
@@ -818,7 +1082,7 @@ footer { /* Footer Container */
   width: 100%;
   padding: 10px;
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid inherit;
   border-radius: 4px;
   box-sizing: border-box;
 }
@@ -837,6 +1101,10 @@ footer { /* Footer Container */
 
 #loginForm button:hover { /* Hover Effect for Submit Button */
   background-color: #555;
+}
+
+#loginResMessage{
+  color: white;
 }
 /*-----------------------------------------------------------------------------------------------------*/
   

@@ -75,12 +75,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function deleteLanguage(languageName, languageDiv){
-    console.log(`Deleting: ${languageName}`);
-    languageDiv.remove();
+    const name = languageName;
     /**
      *  This is where the post request for deleting
      *  an item goes. 
      */
+    languageDiv.remove();
 }
 
 function addNewLanguage(addLanguages, addLangaugesBtn){
@@ -130,8 +130,6 @@ function addNewLanguage(addLanguages, addLangaugesBtn){
  }
 
  function postLanguage(logo, name, addLanguagesBtn, languageForm){
-    console.log(logo);
-    console.log(name);
     /**
      *  Add in code here to handle post request
      */

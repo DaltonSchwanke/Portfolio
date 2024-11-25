@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function deleteFramework(frameworkName, frameworkDiv){
-    console.log(`Deleting Framework: ${frameworkName}`);
     frameworkDiv.remove();
 }
 
@@ -116,8 +115,6 @@ function addNewFramework(addFramework, addFrameworkBtn){
 
 
 function postFramework(logo, name, addFrameworkBtn, frameworkForm){
-    console.log(logo);
-    console.log(name);
     /**
      *  Add in code here to handle post request
      */

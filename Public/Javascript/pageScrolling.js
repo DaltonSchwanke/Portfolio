@@ -63,14 +63,11 @@ function mobileNav() {
     const sections = document.querySelectorAll(".pageSection");
     const navLinks = document.querySelectorAll(".nav-link");
 
-    if (alreadyMobile) {
-        console.log("Already on mobile: mobileNav()");
-    } else {
+    if (!alreadyMobile) {
         alreadyMobile = true;
         alreadyDesktop = false;
-        console.log("Change to mobile: mobileNav()");
-    }
-
+    } 
+    
     // Function to update visible link
     const updateActiveLinkCarousel = (entries) => {
         entries.forEach((entry) => {
@@ -113,12 +110,9 @@ function desktopNav() {
     const sections = document.querySelectorAll(".pageSection");
     const navLinks = document.querySelectorAll(".nav-link");
 
-    if (alreadyDesktop) {
-        console.log("Already on desktop: desktopNav()");
-    } else {
+    if (!alreadyDesktop) {
         alreadyDesktop = true;
         alreadyMobile = false;
-        console.log("Change to desktop: desktopNav()");
     }
 
     // Function to update active link

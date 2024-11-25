@@ -82,6 +82,7 @@ async function loginUser() {
         });
         const result = await response.json();
         const message = document.createElement('h3');
+        message.id = "loginResMessage";
         if (response.ok) {
             sessionStorage.setItem('token', result.token);
             message.textContent = "Hi Dalton!";

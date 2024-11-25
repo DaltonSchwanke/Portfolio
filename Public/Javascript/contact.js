@@ -1,6 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = sessionStorage.getItem('token');
 
+    const contactSection = document.getElementById("contact"); // Contact Section holding container and footer
+    const contactContainer = document.getElementById("contactContainer"); // Contact Container for mobile Links and form
+    const mLinks1 = document.getElementById("mobileLinks1");   // mobile links 1 container
+    const contactFormContainer = document.getElementById("contactFormContainer"); // contactForm Container
+    const mLinks2 = document.getElementById("mobileLinks2"); // mobile links 2 container
+    const footer = document.getElementById('footer'); // footer holding desktoplinks, 
+    const dLinks = document.getElementById("desktopLinks"); // desktopLinks for desktop view
+
+    const contactForm = document.createElement("form");
+    const contactFormTitle = document.createElement("h3");
+    const contactEmailInput = document.createElement("input");
+    const contactTitleInput = document.createElement('input');
+    const contactDescriptionInput = document.createElement('input');
+    const contactSubmitBtn = document.createElement("button");
+
+
+    fetch("/contact").then(response => response.json()).then(data => {
+        phone = data.phone || "No Number Available";
+        email = data.email || "No Email Available";
+        linkedIn = data.linkedIn || "No LinkedIn Available";
+        github = data.github || "No Github Available";
+        insta = data.instagram || "No Instagram Available";
+        x = data.x || "No X Available";
+    });
+
+
 
     /**
      *  The request below gets the contact information from the back
@@ -9,81 +35,81 @@ document.addEventListener('DOMContentLoaded', () => {
      *  if so then it will create new elements that will hold each 
      *  piece of information before it appends it to the contact section.
      */
-    fetch('/contact').then(response => response.json()).then(data => {
+    // fetch('/contact').then(response => response.json()).then(data => {
 
-        phone = data.phone || "Current not reachable by phone";
-        email = data.email || "Currently not reachable by phone";
-        linkedIn = data.linkedIn || "Not very professional of me to not have my linked in linked";
-        github = data.github ;
+    //     phone = data.phone || "Current not reachable by phone";
+    //     email = data.email || "Currently not reachable by phone";
+    //     linkedIn = data.linkedIn || "Not very professional of me to not have my linked in linked";
+    //     github = data.github ;
 
-        const contactSection = document.getElementById('contact');
+    //     const contactSection = document.getElementById('contact');
 
-        if(contactSection){
-            const contactDiv = document.createElement('div');
-            const phoneElement = document.createElement('p');
-            const emailElement = document.createElement('p');
-            const linkedInElement = document.createElement('a');
-            const linkedinImg = document.createElement('img');
-            const githubElement = document.createElement('a');
-            const githubImg = document.createElement('img');
+    //     if(contactSection){
+    //         const contactDiv = document.createElement('div');
+    //         const phoneElement = document.createElement('p');
+    //         const emailElement = document.createElement('p');
+    //         const linkedInElement = document.createElement('a');
+    //         const linkedinImg = document.createElement('img');
+    //         const githubElement = document.createElement('a');
+    //         const githubImg = document.createElement('img');
 
-            contactDiv.classList.add("contactDiv");
-            phoneElement.classList.add("phoneElement");
-            emailElement.classList.add("emailElement");
-            linkedInElement.classList.add("linkedInElement");
-            githubElement.classList.add("githubElement");
-            linkedinImg.classList.add("linkedInImg");
-            githubImg.classList.add("githubImg");
+    //         contactDiv.classList.add("contactDiv");
+    //         phoneElement.classList.add("phoneElement");
+    //         emailElement.classList.add("emailElement");
+    //         linkedInElement.classList.add("linkedInElement");
+    //         githubElement.classList.add("githubElement");
+    //         linkedinImg.classList.add("linkedInImg");
+    //         githubImg.classList.add("githubImg");
 
-            phoneElement.textContent = phone;
-            emailElement.textContent = email;
+    //         phoneElement.textContent = phone;
+    //         emailElement.textContent = email;
            
            
-            linkedinImg.id = 'linkedInButton';
-            githubImg.id = 'githubButton';
+    //         linkedinImg.id = 'linkedInButton';
+    //         githubImg.id = 'githubButton';
 
-            linkedinImg.src = "/Resources/linkedInLogo.png"; 
-            githubImg.src = "/Resources/githubLogo.png"; 
+    //         linkedinImg.src = "/Resources/linkedInLogo.png"; 
+    //         githubImg.src = "/Resources/githubLogo.png"; 
 
 
-            if(data.linkedIn){
-                linkedInElement.href = data.linkedIn;
-                linkedInElement.target = "__blank";
-            }
+    //         if(data.linkedIn){
+    //             linkedInElement.href = data.linkedIn;
+    //             linkedInElement.target = "__blank";
+    //         }
             
-            if(data.github){
-                githubElement.href = data.github;
-                githubElement.target = "__blank";
-            }
+    //         if(data.github){
+    //             githubElement.href = data.github;
+    //             githubElement.target = "__blank";
+    //         }
 
-            if(token){
-                const editBtn = document.createElement('button');
-                editBtn.classList.add('editBtn');
-                editBtn.textContent = "Edit";
-                editBtn.addEventListener('click', () => {
-                    editContact(data, editBtn, contactDiv, contactSection);
-                })
-                contactSection.appendChild(editBtn);
-            }
+    //         if(token){
+    //             const editBtn = document.createElement('button');
+    //             editBtn.classList.add('editBtn');
+    //             editBtn.textContent = "Edit";
+    //             editBtn.addEventListener('click', () => {
+    //                 editContact(data, editBtn, contactDiv, contactSection);
+    //             })
+    //             contactSection.appendChild(editBtn);
+    //         }
 
-            contactDiv.appendChild(phoneElement);
-            contactDiv.appendChild(emailElement);
+    //         contactDiv.appendChild(phoneElement);
+    //         contactDiv.appendChild(emailElement);
 
-            if(data.linkedIn){
-                linkedInElement.appendChild(linkedinImg);
-                contactDiv.appendChild(linkedInElement);
-            }
+    //         if(data.linkedIn){
+    //             linkedInElement.appendChild(linkedinImg);
+    //             contactDiv.appendChild(linkedInElement);
+    //         }
 
-            if(data.github){
-                githubElement.appendChild(githubImg);
-                contactDiv.appendChild(githubElement);
-            }
+    //         if(data.github){
+    //             githubElement.appendChild(githubImg);
+    //             contactDiv.appendChild(githubElement);
+    //         }
 
-            contactSection.appendChild(contactDiv);
-        }
-    }).catch(err => {
-        console.error('Error fetching welcome data:', err);
-    });
+    //         contactSection.appendChild(contactDiv);
+    //     }
+    // }).catch(err => {
+    //     console.error('Error fetching welcome data:', err);
+    // });
 
 });
 
@@ -168,8 +194,8 @@ function editContact(data, editBtn, contactDiv, contactSection){
 
 
 function updateContact(newPhone, newEmail, newLinkedin, newGithub){
-    console.log(`New Phone: ${newPhone}`);
-    console.log(`New Email: ${newEmail}`);
-    console.log(`New LinkedIn: ${newLinkedin}`);
-    console.log(`New Github: ${newGithub}`);
+    const phone = newPhone;
+    const email = newEmail;
+    const linkedIn = newLinkedin;
+    const github = newGithub;
 }

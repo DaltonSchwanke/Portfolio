@@ -1,48 +1,42 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const token = sessionStorage.getItem('token');
+    getAbout();
+});
 
-    /**
-     *  Below is code used to get the about section content. It will
-     *  send a request to the server and then set the data sent back
-     *  to two objects, 'texts' and 'images'. From here it will then 
-     *  create new sections for each text and image, if the image
-     *  source doesn't work then it will create a different element
-     *  containing the caption for the image.
-     */
+function getAbout(){
+    const token = sessionStorage.getItem('token');
     fetch('/about').then(response => response.json()).then(data => {
 
         texts = data.texts || [];
         images = data.images || "No Images available";
 
         const aboutSection = document.getElementById("about");
-        const editBtn = document.createElement('button');
+        aboutSection.innerHTML = "";
         const textContainer = document.createElement('div');
         const imgContainer = document.createElement('div');
 
         textContainer.classList.add("textContainer");
         imgContainer.classList.add("imgContainer");
-        editBtn.id = "editAboutBtn";
-        editBtn.textContent = "Edit";
-
-        if(token){
-            editBtn.addEventListener('click', () => {
-                console.log("this button works");
-                //editAbout(editBtn, aboutSection, textContainer, imgContainer, texts, images);
-            })
-            aboutSection.appendChild(editBtn);
-        }
 
 
         texts.forEach(textItem => {
             const textSection = document.createElement('div');
             const heading = document.createElement('h3');
             const content = document.createElement('p');
+            const editBtn = document.createElement('button');
             textSection.classList.add('textDiv');
             textSection.classList.add('text-item');
             heading.classList.add('textHeader');
             content.classList.add('textContent');
+            editBtn.classList.add('editAboutSection');
             heading.textContent = textItem.heading;
             content.textContent = textItem.content;
+            editBtn.textContent = "Edit";
+
+            editBtn.addEventListener('click', editAboutSection);
+
+            if(token){
+                textSection.appendChild(editBtn);
+            }
             textSection.appendChild(heading);
             textSection.appendChild(content);
             textContainer.appendChild(textSection);
@@ -77,25 +71,113 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(err => {
         console.error("Error fetching about data:", err);
     });
-});
+}
 
 
-// function editAbout(aboutSection, editBtn){
-
-//     const closeEdit = document.createElement('button');
-//     closeEdit.classList.add("closeAboutEdit");
-
-//     closeEdit.textContent = 'x';
-
-//     editBtn.style.display = 'none';
-//     aboutSection.appendChild(closeEdit);
-//     closeEdit.style.display = 'block';
-
-//     closeEdit.addEventListener('click', () => {
-//         closeEdit.style.display = 'none';
-//         editBtn.style.display = 'block';
-//     });
-// } 
 
 
-//textContainer, imgContainer, texts, images
+function editAboutSection(event) {
+    // Get the clicked button's parent section
+    const textSection = event.target.closest('.textDiv');
+
+    // Save current title and description for reverting later
+    const currentTitle = textSection.querySelector('.textHeader').textContent;
+    const currentContent = textSection.querySelector('.textContent').textContent;
+
+    // Clear the section's inner HTML
+    textSection.innerHTML = '';
+
+    // Create input fields for title and description
+    const prompt = document.createElement('h3');
+    const titleInput = document.createElement('input');
+    const descInput = document.createElement('textarea');
+    prompt.textContent = 'Edit';
+    titleInput.value = currentTitle;
+    descInput.value = currentContent;
+    prompt.classList.add("editAboutFormTitle");
+    titleInput.classList.add('editTitleInput');
+    descInput.classList.add('editDescInput');
+
+    // Create buttons
+    const closeButton = document.createElement('button');
+    const submitButton = document.createElement('button');
+    const deleteButton = document.createElement('button');
+    closeButton.textContent = 'Close';
+    submitButton.textContent = 'Submit';
+    deleteButton.textContent = 'Delete';
+
+    // Add event listeners for buttons
+    closeButton.addEventListener('click', () => {
+       getAbout();
+    });
+
+    submitButton.addEventListener('click', async() => {
+        const updatedData = {
+            heading: titleInput.value,
+            content: descInput.value
+        };
+    
+        // Call the update function
+        updateAboutSection(updatedData);
+    });
+    
+    deleteButton.addEventListener('click', async () => {
+        const headingToDelete = titleInput.value;
+    
+        // Call the delete function
+        deleteAboutSection(headingToDelete);
+        getAbout();
+    });
+
+    // Add inputs and buttons to the section
+    textSection.appendChild(prompt);
+    textSection.appendChild(titleInput);
+    textSection.appendChild(descInput);
+    textSection.appendChild(closeButton);
+    textSection.appendChild(submitButton);
+    textSection.appendChild(deleteButton);
+}
+
+
+async function updateAboutSection(data) {
+    try {
+        const response = await fetch('/update-about', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Updated successfully:', result.message);
+        } else {
+            console.error('Failed to update about section:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error updating about section:', error);
+    }
+}
+
+
+async function deleteAboutSection(heading) {
+    try {
+        const response = await fetch('/delete-about', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ heading })
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Deleted successfully:', result.message);
+        } else {
+            console.error('Failed to delete about section:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error deleting about section:', error);
+    }
+}

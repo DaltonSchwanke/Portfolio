@@ -7,7 +7,7 @@
   ],
   "welcome": {
     "title": "Hello :)",
-    "message": "Come take a look at my stuff!",
+    "message": "My name is Dalton, and I'm a software developer. Come check out my stuff!",
     "desktopImg": "",
     "mobileImg": ""
   },
@@ -15,17 +15,23 @@
     "phone": "651-260-2430",
     "email": "dtschwanke@gmail.com",
     "linkedin": "https://www.linkedin.com/in/dalton-schwanke-4bbb451a1/",
-    "github": "https://github.com/DaltonSchwanke"
+    "github": "https://github.com/DaltonSchwanke",
+    "instagram": "",
+    "X": ""
   },
   "about": {
     "texts": [
       {
-        "heading": "About Our Mission",
-        "content": "Our mission is to provide the best user experience."
+        "heading": "Test #1",
+        "content": "This is the first card for the about page."
       },
       {
-        "heading": "Our Vision",
-        "content": "To lead the industry through innovation and dedication."
+        "heading": "Test #2",
+        "content": "This is the second card for the about page."
+      },
+      {
+        "heading": "Test #3",
+        "content": "This is the third card for the about page."
       }
     ],
     "images": [
@@ -39,22 +45,6 @@
       }
     ]
   },
-  "education": [
-    {
-      "school": "University of St. Thomas",
-      "title": "Bachelor of Science in Computer Science",
-      "dates": "2019 - 2023",
-      "logo": "/Resources/stthomas.png",
-      "description": "Studied software engineering, algorithms, and data structures, with a focus on backend development and cybersecurity."
-    },
-    {
-      "school": "Example Technical School",
-      "title": "Diploma in Software Development",
-      "dates": "2017 - 2019",
-      "logo": "",
-      "description": "Gained foundational skills in programming, databases, and web development."
-    }
-  ],
   "experience": [
     {
       "company": "VML",
@@ -73,14 +63,21 @@
   ],
   "projects": [
     {
-      "title":"Thematic",
-      "url": "https://exampleproject.com",
-      "github": "https://github.com/username/exampleproject",
+      "title": "Thematic",
+      "url": "",
+      "github": "https://github.com/DaltonSchwanke/Thematic",
       "thumbnail": "",
       "date": "2024-11-07",
       "description": "A brief description of the project, detailing its purpose and main features.",
-      "languages": ["JavaScript", "HTML", "CSS"],
-      "frameworks": ["React", "Node.js"]
+      "languages": [
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "frameworks": [
+        "React",
+        "Node.js"
+      ]
     },
     {
       "title": "gigit",
@@ -89,8 +86,14 @@
       "thumbnail": "",
       "date": "2024-10-15",
       "description": "Another project description, highlighting the objectives and technology used.",
-      "languages": ["Python", "JavaScript"],
-      "frameworks": ["Django", "React"]
+      "languages": [
+        "Python",
+        "JavaScript"
+      ],
+      "frameworks": [
+        "Django",
+        "React"
+      ]
     }
   ],
   "languages": [
@@ -113,5 +116,4 @@
       "logo": ""
     }
   ]
-  
 }

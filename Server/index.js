@@ -46,8 +46,8 @@ app.get('/signup', (req, res) => {
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     console.log(req.body);
-    const users = await getUsers(); // getUsers now handles the updated JSON structure
-    const foundUser = users.user.find((u) => u.username === username); // Access user data under 'user' category
+    const users = await getUsers(); 
+    const foundUser = users.user.find((u) => u.username === username); 
     if (!foundUser) {
         return res.status(401).json({ message: 'Invalid username or password' });
     }
@@ -59,6 +59,31 @@ app.post('/login', async (req, res) => {
         return res.status(200).json({ message: 'Login successful', token });
     }
 });
+
+
+
+/**
+ *  Route for updating the welcome content
+ */
+app.post('/update-welcome', async (req, res) => {
+  const { title, message, desktopImg, mobileImg } = req.body;
+  try {
+      const data = await fs.readFile(usersFilePath, 'utf-8');
+      const jsonData = JSON.parse(data);
+      jsonData.welcome = {
+          title: title,
+          message: message,
+          desktopImg: desktopImg,
+          mobileImg: mobileImg,
+      };
+      await fs.writeFile(usersFilePath, JSON.stringify(jsonData, null, 2));
+      res.status(200).json({ message: 'Welcome data updated successfully.' });
+  } catch (error) {
+      console.error('Error updating welcome data:', error);
+      res.status(500).json({ message: 'Error updating welcome data.' });
+  }
+});
+
 
 
 /**
@@ -243,6 +268,49 @@ app.get('/about', async (req, res) => {
   }
 });
 
+app.delete('/delete-about', async (req, res) => {
+  const { heading } = req.body;
+  try {
+      console.log('Attempting to read file:', usersFilePath);
+      const data = await fs.readFile(usersFilePath, 'utf-8');
+      console.log('File read successfully');
+      
+      if (!data.trim()) {
+          console.error('Error: File is empty');
+          return res.status(400).json({ message: 'File is empty or corrupted.' });
+      }
+
+      let jsonData;
+      try {
+          jsonData = JSON.parse(data);
+      } catch (parseError) {
+          console.error('Error parsing JSON:', parseError.message);
+          return res.status(400).json({ message: 'Invalid JSON format in file.' });
+      }
+
+      console.log('Current JSON data:', jsonData);
+
+      // Delete the specified section
+      const initialLength = jsonData.about.texts.length;
+      jsonData.about.texts = jsonData.about.texts.filter(text => text.heading !== heading);
+
+      // Log the resulting JSON data after deletion
+      console.log('Updated JSON data after deletion:', jsonData);
+
+      // Write the updated data back to the file
+      await fs.writeFile(usersFilePath, JSON.stringify(jsonData, null, 2));
+      
+      // Check the file content after writing
+      const updatedData = await fs.readFile(usersFilePath, 'utf-8');
+      console.log('Updated file content after writing:', updatedData);
+
+      res.status(200).json({ message: 'Section deleted successfully.' });
+  } catch (error) {
+      console.error('Detailed error information:', error.message, error.stack);
+      res.status(500).json({ message: 'Error deleting about section.' });
+  }
+});
+
 
 /**
  *  The request below is used to get the contact content from 
@@ -261,7 +329,9 @@ app.get('/contact', async (req, res) => {
       phone: contactData.phone,
       email: contactData.email,
       linkedIn: contactData.linkedin,
-      github: contactData.github
+      github: contactData.github,
+      instagram: contactData.instagram,
+      x: contactData.X
     });
   } catch (err){
     console.error('Contact: Error reading data file:', err);
