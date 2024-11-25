@@ -1,9 +1,17 @@
+// Global Variables
 var projectCount = 0;
 var projectIndex = 0;
 
+
+
+/**
+ *  Content for when the page loads. 
+ */
 document.addEventListener('DOMContentLoaded', () => {
     getProjects();
+    setCarousel();
 });
+
 
 
 /**
@@ -109,6 +117,21 @@ function getProjects(){
     }).catch(err => {
         console.error('Error fetching project data:', err);
     });
+}
+
+
+
+/**
+ *  This function is used to set the function for the projects
+ *  when the page laods. It will crete an instance of the project
+ *  next and previous buttons and from there add event listeners
+ *  for them. When they are clicked they will either increment or 
+ *  decrement the project index and then call the function
+ *  'updateProjectCarousel'. 
+ */
+function setCarousel(){
+    const projectNextBtn = document.getElementById("projectNextBtn");
+    const projectPrevBtn = document.getElementById("projectPrevBtn");
 
     if (projectNextBtn) {
         projectNextBtn.addEventListener("click", () => {
@@ -118,7 +141,6 @@ function getProjects(){
             }
         });
     }
-
     if (projectPrevBtn) {
         projectPrevBtn.addEventListener("click", () => {
             if (projectIndex > 0) {
@@ -128,6 +150,7 @@ function getProjects(){
         });
     }
 }
+
 
 
 /**
@@ -163,6 +186,7 @@ function updateProjectCarousel() {
 }
 
 
+
 /**
  *  This function will be used to update a projects data
  * 
@@ -171,6 +195,8 @@ function updateProjectCarousel() {
 function updateProject(data){
     console.log("Updating Project: ", data);
 }
+
+
 
 /**
  *  This function will be used to delete a project. 

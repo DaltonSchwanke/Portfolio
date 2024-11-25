@@ -1,7 +1,11 @@
+// Global Variables 
 var experienceCount = 0;
 var experienceIndex = 0;
 
 
+/**
+ *  Content for when the page loads. 
+ */
 document.addEventListener('DOMContentLoaded', () => {
     getExperience();
     setCarousel();
@@ -9,6 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+/**
+ *  The function below is used to get the experience data 
+ *  from the server and from there it will create carousel items for 
+ *  each experience. Each item will have a image for the logo, title,
+ *  company, dates, description. If the user is logged in as admin then
+ *  there will be edit and delete buttons for each item and when the 
+ *  user clicks on them it will run a function to either 'editExperience' 
+ *  or it will run 'deleteExperience'. 
+ */
 function getExperience(){
     fetch('/experience').then(response => response.json()).then(data => {
         const token = sessionStorage.getItem('token');
@@ -44,6 +57,13 @@ function getExperience(){
             deleteExperienceBtn.textContent = "x";
             logo.src = experience.logo || "/Resources/genericExperience.png";
 
+            editExperienceBtn.addEventListener('click', () => {
+                editExperience(experience);
+            });
+            deleteExperienceBtn.addEventListener('click', () => {
+                deleteExperience(experience);
+            });
+
             if(token){
                 experienceDiv.appendChild(editExperienceBtn);
                 experienceDiv.appendChild(deleteExperienceBtn);
@@ -57,6 +77,7 @@ function getExperience(){
         console.error("Error fetching experience data:", err);
     });
 }
+
 
 
 /**
@@ -88,23 +109,26 @@ function setCarousel(){
     }
 }
 
+
+
 /**
- * Update the experience carousel and control visibility of navigation buttons
+ *  This function is used to update the carousel for the experience section. 
+ *  It will create an instance of the previous and next button for the section 
+ *  and from there whenever the carousel is updated it will run three
+ *  conditionals. The first will remove the previous button when the first 
+ *  item is shown, the second will remove the next button if the user is on the 
+ *  last item. The last conditional will remove both if thre is less than 2 items. 
  */
 function updateExperienceCarousel() {
     const experienceContainer = document.querySelector(".experienceContainer");
     const experienceNextBtn = document.getElementById("experienceNextBtn");
     const experiencePrevBtn = document.getElementById("experiencePrevBtn");
 
-    // Update the carousel position
     experienceContainer.style.transform = `translateX(-${experienceIndex * 100}%)`;
 
-    // Show or hide the previous button
     if (experiencePrevBtn) {
         experiencePrevBtn.style.display = experienceIndex === 0 ? 'none' : 'block';
     }
-
-    // Show or hide the next button
     if (experienceNextBtn) {
         experienceNextBtn.style.display = experienceIndex === experienceCount - 1 ? 'none' : 'block';
     }
@@ -112,4 +136,26 @@ function updateExperienceCarousel() {
         experienceNextBtn.style.display = 'none';
         experiencePrevBtn.style.display = 'none';
     }
+}
+
+
+
+/**
+ *  This function will be used to edit a experience. 
+ * 
+ * @param {*} data 
+ */
+function editExperience(data){
+    console.log("editing experience: ", data);
+}
+
+
+
+/**
+ *  This function will be used to delete a experience. 
+ * 
+ * @param {*} data 
+ */
+function deleteExperience(data){
+    console.log("Deleting Experience: ", data);
 }
