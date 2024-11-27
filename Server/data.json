@@ -6,8 +6,8 @@
     }
   ],
   "welcome": {
-    "title": "Hello :)",
-    "message": "My name is Dalton, and I'm a software developer. Come check out my stuff!",
+    "title": "Hello, my name is Dalton :)",
+    "message": "I'm a software developer. Come check out my stuff!",
     "desktopImg": "",
     "mobileImg": ""
   },
@@ -49,15 +49,17 @@
     {
       "company": "VML",
       "title": "Technology Intern",
-      "dates": "2023 - 2024",
+      "startDate": "2023-10-01",
+      "endDate": "2024-03-31",
       "logo": "/Resources/vml.png",
       "description": "Studied software engineering, algorithms, and data structures, with a focus on backend development and cybersecurity."
     },
     {
       "company": "Audi",
-      "title": "Automotive Detail",
-      "dates": "2023 - 2024",
-      "logo": "",
+      "title": "Automotive Detailer",
+      "startDate": "2022-11-07",
+      "endDate": "",
+      "logo": "/Resources/genericExperience.png",
       "description": "Studied software engineering, algorithms, and data structures, with a focus on backend development and cybersecurity."
     }
   ],

@@ -203,27 +203,6 @@ app.get('/frameworks', async (req, res) => {
 }); 
 
 
-/** 
- *  This route is used to get education data from the 
- *  file 'user.json'. It will read the file and get the 
- *  education data. It will then put it in a json object before
- *  it sends it to the client. 
- */
-app.get('/education', async (req, res) => {
-  try{
-    const eData = await fs.readFile(usersFilePath, 'utf-8');
-    const ejsonData = JSON.parse(eData);
-    const educationData = ejsonData.education;
-    res.json({
-      educations: educationData
-    });
-  } catch (err){
-    console.error("Education: Error reading data file:", err);
-    res.status(500).json({ message: 'Error fetching education data'});
-  }  
-});
-
-
 /**
  *  This route gets the experience data for the client. It will 
  *  first get read the file 'data.json' and get the experience 
@@ -244,6 +223,106 @@ app.get('/experience', async (req, res) => {
   }  
 });
 
+/**
+ *  The route below is used to update an experience item in the data
+ *  file. It takes in all the experience data and the previous title. 
+ *  It will then read the data file, parse data, and find the experience
+ *  that matches the title to the old one given from the client, It will
+ *  next set that experience data variables to the new ones, finishing by
+ *  sending back if it was successful or not. 
+ */
+app.post('/update-experience', async (req, res) => {
+  const { oldTitle, title, company, description, startDate, endDate, logo } = req.body;
+
+  try {
+      const data = await fs.readFile(usersFilePath, 'utf-8');
+      const jsonData = JSON.parse(data);
+      const experience = jsonData.experience.find(item => item.title === oldTitle);
+
+      if (!experience) {
+          return res.status(404).json({ message: 'Experience entry not found' });
+      }
+      experience.title = title;
+      experience.company = company;
+      experience.description = description;
+      experience.startDate = startDate;
+      experience.endDate = endDate;
+      experience.logo = logo;
+
+      await fs.writeFile(usersFilePath, JSON.stringify(jsonData, null, 2));
+      res.status(200).json({ message: 'Experience data updated successfully.' });
+  } catch (error) {
+      console.error('Error updating experience data:', error);
+      res.status(500).json({ message: 'Error updating experience data.' });
+  }
+});
+
+
+/**
+ *  The route below is used to add an experience to the data.json 
+ *  file. It creates an object of the data that is sent from the 
+ *  client. From here it will read the data file, parse the data, 
+ *  find experience. It will then push the new experience into it. 
+ *  Lastly it will then write the data back to the file, thus adding
+ *  in the new experience, and then sending back if successful or not. 
+ */
+app.post('/add-experience', async (req, res) => {
+  const { title, company, description, startDate, endDate, logo } = req.body;
+  const newExperience = {
+      company,
+      title,
+      startDate,
+      endDate,
+      logo: logo || '/Resources/genericExperience.png',
+      description,
+  };
+
+  try {
+    const data = await fs.readFile(usersFilePath, 'utf-8');
+    const jsonData = JSON.parse(data);
+    const experience = jsonData.experience;
+  
+    experience.push(newExperience);
+
+    await fs.writeFile(usersFilePath, JSON.stringify(jsonData, null, 2));
+    res.status(200).json({ message: 'Experience added successfully.' });
+  } catch (error) {
+      console.error('Error adding experience:', error);
+      res.status(500).json({ message: 'Error adding experience.' });
+  }
+});
+
+
+
+/**
+ *  This route is used to delete an experience. It will take
+ *  in the experience title. It then reads the data file, parses
+ *  the data, then finds that experience data, or return not found.
+ *  If found it will splice it off the array, and write the data back
+ *  to the server, removing that experience data. 
+ */
+app.post('/delete-experience', async (req, res) => {
+  const { title } = req.body;
+
+  try {
+      const data = await fs.readFile(usersFilePath, 'utf-8');
+      const jsonData = JSON.parse(data);
+      const experienceIndex = jsonData.experience.findIndex(item => item.title === title);
+      if (experienceIndex === -1) {
+          return res.status(404).json({ message: 'Experience entry not found' });
+      }
+
+      jsonData.experience.splice(experienceIndex, 1);
+
+      await fs.writeFile(usersFilePath, JSON.stringify(jsonData, null, 2));
+
+      res.status(200).json({ message: 'Experience data deleted successfully.' });
+  } catch (error) {
+      console.error('Error deleting experience data:', error);
+      res.status(500).json({ message: 'Error deleting experience data.' });
+  }
+});
+
 
 /**
  *  The request below is used to get the about section data from the
@@ -256,8 +335,6 @@ app.get('/about', async (req, res) => {
     const aData = await fs.readFile(usersFilePath, 'utf-8');
     const ajsonData = JSON.parse(aData);
     const aboutData = ajsonData.about;
-
-    console.log('About Data:', aboutData); // Debugging: Inspect content
     res.json({
       texts: aboutData.texts,
       images: aboutData.images
@@ -267,6 +344,7 @@ app.get('/about', async (req, res) => {
     res.status(500).json({ message: 'Error fetching about data' });
   }
 });
+
 
 app.delete('/delete-about', async (req, res) => {
   const { heading } = req.body;
@@ -289,8 +367,6 @@ app.delete('/delete-about', async (req, res) => {
       }
 
       console.log('Current JSON data:', jsonData);
-
-      // Delete the specified section
       const initialLength = jsonData.about.texts.length;
       jsonData.about.texts = jsonData.about.texts.filter(text => text.heading !== heading);
 

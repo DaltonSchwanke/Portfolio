@@ -29,8 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 function getProjects(){
     const token = sessionStorage.getItem('token');
-    const projectNextBtn = document.getElementById("projectNextBtn");
-    const projectPrevBtn = document.getElementById("projectPrevBtn");
     fetch('/projects').then(response => response.json()).then(data => {
 
         const projects = data.projects;
@@ -97,18 +95,15 @@ function getProjects(){
             }
 
             projectDetails.append(title, dates, description);
+
             if(project.url){
                 projectDetails.appendChild(projectBtn);
-            }
-            else{
-                console.log("Project ", projectIndex, ": no link");
             }
             if(project.github){
                 projectDetails.appendChild(githubBtn);
             }
-            else{
-                console.log("Project ", projectIndex, ": no github");
-            }
+        
+
             projectDiv.append(thumbnail, projectDetails);
             projectContainer.append(projectDiv);
         });
@@ -135,6 +130,7 @@ function setCarousel(){
 
     if (projectNextBtn) {
         projectNextBtn.addEventListener("click", () => {
+            console.log("Next Project");
             if (projectIndex < projectCount - 1) {
                 projectIndex++;
                 updateProjectCarousel();
@@ -143,6 +139,7 @@ function setCarousel(){
     }
     if (projectPrevBtn) {
         projectPrevBtn.addEventListener("click", () => {
+            console.log("Previous Project");
             if (projectIndex > 0) {
                 projectIndex--;
                 updateProjectCarousel();
