@@ -30,7 +30,6 @@ function getExperience(){
         const experienceSection = document.querySelector(".experienceContainer");
         experienceSection.innerHTML = '';
         experienceCount = experiences.length;
-        console.log("getExp: ", experienceCount);
 
         experiences.forEach(experience => {
 
@@ -64,7 +63,7 @@ function getExperience(){
                 event.preventDefault();
                 editExperience(experience, experienceDiv);
             });
-            deleteExperienceBtn.addEventListener('click', () => {
+            deleteExperienceBtn.addEventListener('click', () => { 
                 event.preventDefault();
                 deleteExperience(experience.title, experienceDiv);
             });
@@ -85,6 +84,8 @@ function getExperience(){
         console.error("Error fetching experience data:", err);
     });
 }
+
+
 
 /**
  *  This function is used to add in another experience item
@@ -113,6 +114,7 @@ function addExperienceAddition(parent) {
 }
 
 
+
 /**
  *  This function is used to show the add experience 
  *  form. It will clear out the current carousel content
@@ -122,7 +124,8 @@ function addExperienceAddition(parent) {
  *  or close the form. If the user closes the page it will just reset
  *  the experience section. If the user submits the form it will then
  *  set each piece of data to a variable before passing it all in the 
- *  function 'addExperience'.
+ *  function 'checkRequired' that starts the process of adding a new 
+ *  experience itme.
  *  
  * @param {*} div 
  */
@@ -186,7 +189,7 @@ function addExperienceForm(div){
         var newExpStartDate = startDate.value;
         var newExpEndDate = endDate.value;
         var newExpLogo = logoInput.value || "/Resources/genericExperience.png";
-        addExperience(newExpTitle, newExpCompany, newExpDescription, newExpStartDate, newExpEndDate, newExpLogo, addExpForm);
+        checkRequiredExperience(newExpTitle, newExpCompany, newExpDescription, newExpStartDate, newExpEndDate, newExpLogo, addExpForm);
     });
 
     addExpForm.appendChild(submitForm);
@@ -203,6 +206,61 @@ function addExperienceForm(div){
     addExpForm.appendChild(logoInput);
     div.appendChild(addExpForm);
 }
+
+
+
+/**
+ *  This function serves as the form validation check prior to saving a new experience item.
+ *  For each required item it will check to see if it's undefined, if so it will add in a 
+ *  red container that has a message regarding the missing form field. If there is no missing 
+ *  input fields then it will call the function 'addExperience' and passes all the information
+ *  that saves the new experience. 
+ * 
+ * @param {*} title 
+ * @param {*} company 
+ * @param {*} description 
+ * @param {*} startDate 
+ * @param {*} endDate 
+ * @param {*} logo 
+ * @param {*} div 
+ */
+function checkRequiredExperience(title, company, description, startDate, endDate, logo, div){
+    const errorBlock = document.createElement("div");
+    errorBlock.classList.add("addExpError");
+
+    if(!title){
+        errorBlock.textContent = "Missing Field: Title";
+        div.appendChild(errorBlock);
+        setTimeout(() => {
+            errorBlock.style.display = 'none';
+            return;
+        }, 3000);
+    } else if(!company){
+        errorBlock.textContent = "Missing Field: Company";
+        div.appendChild(errorBlock);
+        setTimeout(() => {
+            errorBlock.style.display = 'none';
+            return;
+        }, 3000);
+    } else if(!description){
+        errorBlock.textContent = "Missing Field: Description";
+        div.appendChild(errorBlock);
+        setTimeout(() => {
+            errorBlock.style.display = 'none';
+            return;
+        }, 3000);
+    } else if(!startDate){
+        errorBlock.textContent = "Missing Field: Start Date";
+        div.appendChild(errorBlock);
+        setTimeout(() => {
+            errorBlock.style.display = 'none';
+            return;
+        }, 3000);
+    } else {
+        addExperience(title, company, description, startDate, endDate, logo, div);
+    }
+}
+
 
 
 /**
@@ -224,42 +282,8 @@ function addExperienceForm(div){
  * @returns 
  */
 function addExperience(newExpTitle, newExpCompany, newExpDescription, newExpStartDate, newExpEndDate, newExpLogo, div) {
-
     const errorBlock = document.createElement("div");
     errorBlock.classList.add("addExpError");
-
-    if(!newExpTitle){
-        errorBlock.textContent = "Missing Field: Title";
-        div.appendChild(errorBlock);
-        setTimeout(() => {
-            errorBlock.style.display = 'none';
-        }, 3000);
-        return;
-    }
-    if(!newExpCompany){
-        errorBlock.textContent = "Missing Field: Company";
-        div.appendChild(errorBlock);
-        setTimeout(() => {
-            errorBlock.style.display = 'none';
-        }, 3000);
-        return;
-    }
-    if(!newExpDescription){
-        errorBlock.textContent = "Missing Field: Description";
-        div.appendChild(errorBlock);
-        setTimeout(() => {
-            errorBlock.style.display = 'none';
-        }, 3000);
-        return;
-    }
-    if(!newExpStartDate){
-        errorBlock.textContent = "Missing Field: Start Date";
-        div.appendChild(errorBlock);
-        setTimeout(() => {
-            errorBlock.style.display = 'none';
-        }, 3000);
-        return;
-    }
 
     fetch('/add-experience', {
         method: 'POST',
@@ -528,7 +552,6 @@ function formatDate(date) {
 *  the function 'updateExperienceCarousel'.
 */
 function setCarousel(){
-    console.log("setCar start: ", experienceIndex);
     const experienceNextBtn = document.getElementById("experienceNextBtn");
     const experiencePrevBtn = document.getElementById("experiencePrevBtn");
 

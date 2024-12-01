@@ -65,21 +65,18 @@
   ],
   "projects": [
     {
-      "title": "Thematic",
+      "title": "Thematic 2.0",
       "url": "",
       "github": "https://github.com/DaltonSchwanke/Thematic",
-      "thumbnail": "",
-      "date": "2024-11-07",
-      "description": "A brief description of the project, detailing its purpose and main features.",
-      "languages": [
-        "JavaScript",
-        "HTML",
-        "CSS"
-      ],
+      "thumbnail": "/Resources/genericProject.jpg",
+      "date": "Thematic is a tool used by creatives and developers to create and customize website layouts and themes. It allows the user to customize HTML tags and page layout in a fun interactive way and outputs a css style sheet and a pdf breakdown of all the custom elements and there styling choices. ",
+      "description": "2024-12-17",
+      "languages": [],
       "frameworks": [
         "React",
         "Node.js"
-      ]
+      ],
+      "framewors": []
     },
     {
       "title": "gigit",

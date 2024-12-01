@@ -55,33 +55,9 @@ app.post('/login', async (req, res) => {
     if (!isPasswordMatch) {
         return res.status(401).json({ message: 'Invalid username or password' });
     } else {
-        const token = jwt.sign({ username: username }, JWT_SECRET, { expiresIn: '3h' });
+        const token = jwt.sign({ username: username }, JWT_SECRET, { expiresIn: '1h' });
         return res.status(200).json({ message: 'Login successful', token });
     }
-});
-
-
-
-/**
- *  Route for updating the welcome content
- */
-app.post('/update-welcome', async (req, res) => {
-  const { title, message, desktopImg, mobileImg } = req.body;
-  try {
-      const data = await fs.readFile(usersFilePath, 'utf-8');
-      const jsonData = JSON.parse(data);
-      jsonData.welcome = {
-          title: title,
-          message: message,
-          desktopImg: desktopImg,
-          mobileImg: mobileImg,
-      };
-      await fs.writeFile(usersFilePath, JSON.stringify(jsonData, null, 2));
-      res.status(200).json({ message: 'Welcome data updated successfully.' });
-  } catch (error) {
-      console.error('Error updating welcome data:', error);
-      res.status(500).json({ message: 'Error updating welcome data.' });
-  }
 });
 
 
@@ -134,6 +110,28 @@ app.get('/welcome', async (req, res) => {
   }
 });
 
+/**
+ *  Route for updating the welcome content
+ */
+app.post('/update-welcome', async (req, res) => {
+  const { title, message, desktopImg, mobileImg } = req.body;
+  try {
+      const data = await fs.readFile(usersFilePath, 'utf-8');
+      const jsonData = JSON.parse(data);
+      jsonData.welcome = {
+          title: title,
+          message: message,
+          desktopImg: desktopImg,
+          mobileImg: mobileImg,
+      };
+      await fs.writeFile(usersFilePath, JSON.stringify(jsonData, null, 2));
+      res.status(200).json({ message: 'Welcome data updated successfully.' });
+  } catch (error) {
+      console.error('Error updating welcome data:', error);
+      res.status(500).json({ message: 'Error updating welcome data.' });
+  }
+});
+
 
 /**
  *  The route below is used to get the project data from the 'data.json'
@@ -155,6 +153,106 @@ app.get('/projects', async (req, res) => {
     res.status(500).json({ message: 'Error fetching project data. '});
   }
 }); 
+
+
+/** 
+ *  This route is used to update a project item in the data file. It will take in the 
+ *  data and the previous title. It will then read the data file and look for a project
+ *  with a matching title to the previous one. From here it will set the variables to the 
+ *  ones passed from the client before writting the data back to the file. 
+ */
+app.post('/update-project', async (req, res) => {
+  const { oldTitle, title, url, github, thumbnail, date, description, languages, frameworks } = req.body;
+  try {
+    const data = await fs.readFile(usersFilePath, 'utf-8');
+    const jsonData = JSON.parse(data);
+    const project = jsonData.projects.find(item => item.title === oldTitle);
+
+    if (!project) {
+        return res.status(404).json({ message: 'Project entry not found' });
+    }
+    project.title = title;
+    project.url = url;
+    project.github = github;
+    project.thumbnail = thumbnail;
+    project.date = date;
+    project.description = description;
+    project.languages = languages;
+    project.framewors = frameworks;
+
+    await fs.writeFile(usersFilePath, JSON.stringify(jsonData, null, 2));
+    res.status(200).json({ message: 'Project data updated successfully.' });
+} catch (error) {
+    console.error('Error updating project data:', error);
+    res.status(500).json({ message: 'Error updating Projecet data.' });
+}
+});
+
+
+/** 
+ *  The route below is used to add in a new project to the data file
+ *  it will take in the data for the project the user wants to add and 
+ *  create a new object to hold it. From there it reads the data from the 
+ *  file and checks for the projects section before it pushes the new 
+ *  project into the projects array, then writting the data back the the 
+ *  file. 
+ */
+app.post('/add-project', async (req, res) => {
+  const { title, url, github, thumbnail, date, description, languages, frameworks } = req.body;
+  const newProject = {
+      title,
+      url,
+      github,
+      thumbnail: thumbnail || '/Resources/genericProject.png',
+      date,
+      description,
+      languages,
+      frameworks,
+  };
+
+  try {
+    const data = await fs.readFile(usersFilePath, 'utf-8');
+    const jsonData = JSON.parse(data);
+    const projects = jsonData.projects;
+  
+    projects.push(newProject);
+
+    await fs.writeFile(usersFilePath, JSON.stringify(jsonData, null, 2));
+    res.status(200).json({ message: 'Project added successfully.' });
+  } catch (error) {
+      console.error('Error adding Project:', error);
+      res.status(500).json({ message: 'Error adding Project.' });
+  }
+});
+
+/**
+ *  The function below is used to delete a project from the data file
+ *  it takes in the title of the project to delete, from there it will
+ *  read the data file, make a copy finding the project that matches the 
+ *  given title. If it can't find a match it will return 404. If there is 
+ *  a match then it will remove it before writting the data back the file. 
+ */
+app.post('/delete-project', async (req, res) => {
+  const { title } = req.body;
+
+  try{
+    const data = await fs.readFile(usersFilePath, 'utf-8');
+    const jsonData = JSON.parse(data);
+    const projectIndex = jsonData.projects.findIndex(item => item.title === title);
+    if(projectIndex === -1){
+      return res.status(404).json({ message: 'Project entry not found' });
+    }
+
+    jsonData.projects.splice(projectIndex, 1);
+
+    await fs.writeFile(usersFilePath, JSON.stringify(jsonData, null, 2));
+
+    res.status(200).json({ message: 'Project data deleted successfully' });
+  } catch (error) {
+      console.error('Error deleting project data:', error);
+      res.status(500).json({ message: 'Error deleting project data.' });
+  }
+});
 
 
 /**
