@@ -5,9 +5,11 @@ This is a personal portfolio website containing information about me! It is a si
 
 If the user clicks on the stamp found at the bottom of the page it will open a login form where they are prompted to enter in a username and password. If valid then it will reload the page that now includes the admin content allowing the user to add, update, and delete page content and have the changes be applied in real time. 
 
-To run the project:
+To run:
 1. Fork the repository
 
-2. Navigate to the folder 'server' via command prompt or terminal
+2. Clone the repository
 
-3. run "node index.js" 
+3. Navigate to the folder 'server' via command prompt or terminal
+
+4. run "node index.js" 
